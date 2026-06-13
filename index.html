@@ -1029,10 +1029,63 @@ img{ max-width:100%; display:block; }
   font-size:12.5px; color:var(--ink-3); line-height:1.7;
 }
 
-/* ── reveal on scroll ────────────────────────────────────────────── */
-.reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+/* ════ MOTION SYSTEM ════════════════════════════════════════════════
+   One cohesive language: a single premium easing + shared timings,
+   scroll reveals, a hero load entrance, hover micro-interactions, and
+   one gentle float. Transform/opacity only (cheap, no layout thrash);
+   IntersectionObserver-driven (no scroll handlers); fully stilled under
+   prefers-reduced-motion. */
+:root{ --ease-out: cubic-bezier(.22, 1, .36, 1); --ease-soft: cubic-bezier(.4, 0, .2, 1); }
+
+/* premium type polish: kerning + better line-breaking, subtle tracking */
+body{ letter-spacing:-.006em; text-rendering:optimizeLegibility; }
+p{ text-wrap:pretty; }
+.section__title, .play__title, .final__title, .hero__title{ text-wrap:balance; }
+
+/* ── reveal on scroll: fade-up + variants + stagger ──────────────── */
+.reveal{ opacity:0; transform:translateY(22px);
+  transition:opacity .7s var(--ease-out, ease), transform .7s var(--ease-out, ease);
+  transition-delay:var(--rd, 0ms); }
+.reveal.reveal--left{ transform:translateX(-26px); }
+.reveal.reveal--right{ transform:translateX(26px); }
+.reveal.reveal--scale{ transform:scale(.965); }
 .reveal.in{ opacity:1; transform:none; }
-@media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; } }
+
+/* ── hero load entrance (staggered fade-up; title reveals word-by-word) ── */
+@keyframes upIn{ from{ opacity:0; transform:translateY(24px); } to{ opacity:1; transform:none; } }
+.hero__inner > *{ animation:upIn .8s var(--ease-out) both; }
+.hero__title{ animation-delay:.05s; }
+.hero__sub{ animation-delay:.20s; }
+.hero__actions{ animation-delay:.32s; }
+.hero__note{ animation-delay:.42s; }
+.hero__title.is-split{ animation:none; }
+.hero__title .w{ display:inline-block;
+  animation:upIn .7s var(--ease-out) both; animation-delay:calc(var(--wi, 0) * 48ms + .08s); }
+
+/* ── hover micro-interactions ────────────────────────────────────── */
+.nav__links a{ position:relative; }
+.nav__links a::after{ content:""; position:absolute; left:0; right:0; bottom:-4px; height:2px;
+  border-radius:2px; background:var(--mint); transform:scaleX(0); transform-origin:left;
+  transition:transform .28s var(--ease-out); }
+.nav__links a:hover::after{ transform:scaleX(1); }
+/* card lift comes from the base .oppcard/.voice:hover rules (token-based,
+   -4px / -3px) — here we only add the icon micro-pop, no duplication */
+.oppcard__icon, .voice__mark{ transition:transform .3s var(--ease-out); }
+.oppcard:hover .oppcard__icon, .voice:hover .voice__mark{ transform:scale(1.08) rotate(-3deg); }
+.footer__col a{ transition:color .2s ease, transform .2s var(--ease-out); }
+.footer__col a:hover{ transform:translateX(3px); }
+
+/* ── one gentle float: the hero dashboard preview ────────────────── */
+@keyframes floatY{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
+.demo{ animation:floatY 8s var(--ease-soft) infinite; }
+.demo:hover{ animation-play-state:paused; }
+
+/* ── reduced-motion: snap reveals/entrances; stop all loops cleanly ── */
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1 !important; transform:none !important; transition:none; }
+  .hero__inner > *, .hero__title .w{ animation:none !important; opacity:1 !important; transform:none !important; }
+  .demo, .marquee__track{ animation:none !important; }
+}
 </style>
 </head>
 <body id="top">
@@ -1556,18 +1609,55 @@ img{ max-width:100%; display:block; }
   onScroll();
 })();
 
-// ── reveal on scroll (respects reduced motion) ───────────────────────
+// ── reveal on scroll: fade-up + per-group stagger (respects reduced motion) ──
 (function () {
+  // broaden coverage beyond the markup-tagged elements
+  document.querySelectorAll('.footer__col, .marquee-band').forEach(function (el) { el.classList.add('reveal'); });
+  var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  // stagger siblings that share a parent so groups cascade in
+  var counts = new Map();
+  els.forEach(function (el) {
+    var p = el.parentElement;
+    var i = counts.get(p) || 0; counts.set(p, i + 1);
+    if (i > 0) el.style.setProperty('--rd', Math.min(i, 6) * 75 + 'ms');
+  });
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+    els.forEach(function (el) { el.classList.add('in'); });
     return;
   }
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
       if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  els.forEach(function (el) { io.observe(el); });
+})();
+
+// ── hero headline: split into words for a word-by-word entrance ──────
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var h = document.querySelector('.hero__title');
+  if (!h) return;
+  var i = 0, out = document.createDocumentFragment();
+  function pushWords(text) {
+    text.split(/(\s+)/).forEach(function (tok) {
+      if (tok === '') return;
+      if (/^\s+$/.test(tok)) { out.appendChild(document.createTextNode(tok)); return; }
+      var w = document.createElement('span');
+      w.className = 'w'; w.style.setProperty('--wi', i++); w.textContent = tok;
+      out.appendChild(w);
+    });
+  }
+  Array.prototype.slice.call(h.childNodes).forEach(function (n) {
+    if (n.nodeType === 3) { pushWords(n.textContent); }
+    else if (n.nodeName === 'BR') { out.appendChild(document.createElement('br')); }
+    else if (n.nodeName === 'EM') {
+      var w = document.createElement('span'); w.className = 'w'; w.style.setProperty('--wi', i++);
+      var em = document.createElement('em'); em.textContent = n.textContent; w.appendChild(em);
+      out.appendChild(w);
+    } else { out.appendChild(n.cloneNode(true)); }
+  });
+  h.textContent = ''; h.appendChild(out); h.classList.add('is-split');
 })();
 
 // ── live step illustrations: fire one-shot reveals + counters in view ──
