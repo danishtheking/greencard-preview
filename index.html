@@ -1356,7 +1356,7 @@ p{ text-wrap:pretty; }
 </section>
 
 <!-- ════ OPPORTUNITY ENGINE ════ -->
-<section class="opps" id="opportunities">
+<section class="opps tex-band" id="opportunities">
   <div class="container">
     <div class="section__head reveal">
       <span class="eyebrow">The opportunity engine</span>
@@ -1474,7 +1474,7 @@ p{ text-wrap:pretty; }
 </section>
 
 <!-- ════ VOICES ════ -->
-<section class="voices" id="voices">
+<section class="voices tex-band" id="voices">
   <div class="container">
     <div class="section__head reveal">
       <span class="eyebrow">Voices</span>
@@ -1502,6 +1502,15 @@ p{ text-wrap:pretty; }
 
 <!-- ════ INTERACTIVE CTA — drag-and-throw opportunities ════ -->
 <style>
+/* ── subtle texture system: global film grain + mint dot-lattice on big bands ── */
+body::after{ content:""; position:fixed; inset:0; z-index:9000; pointer-events:none; opacity:.03; mix-blend-mode:multiply; background-image:var(--grain); background-size:160px 160px; }
+.tex-band{ position:relative; isolation:isolate; background:linear-gradient(180deg,#F2F9F5,#F6FBF8); }
+.tex-band > *{ position:relative; z-index:1; }
+.tex-band::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:radial-gradient(rgba(27,122,80,.05) 1px, transparent 1.6px);
+  background-size:22px 22px; background-position:-11px -11px;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);
+          mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent); }
 /* embedded staircase-game CTA */
 .play .sg-frame{ display:block; width:100%; border:0; background:transparent; height:660px; }
 @media (max-width:760px){ .play .sg-frame{ height:700px; } }
