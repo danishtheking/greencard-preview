@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ladder CTA — 3 options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#16271F; --ink-2:#4E6157; --ink-3:#7E948A;
+  --mint:#47C189; --mint-deep:#1B7A50; --mint-ink:#0E4E33;
+  --mint-100:#ECF9F2; --mint-200:#D8F1E4; --mint-300:#BCE7D2;
+  --line:#E4EBE6; --line-soft:#EDF2EE; --well:#F3F7F4;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+  --mono:"Space Grotesk","Inter",system-ui,sans-serif;
+  --ease-out:cubic-bezier(.22,1,.36,1); --ease-soft:cubic-bezier(.4,0,.2,1);
+  --gls-1:rgba(124,229,182,.76); --gls-2:rgba(60,185,127,.70); --gls-edge:rgba(255,255,255,.55); --gls-sheen:rgba(255,255,255,.72);
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{ font-family:var(--sans); color:var(--ink); background:#fff; letter-spacing:-.006em; -webkit-font-smoothing:antialiased; font-optical-sizing:auto; }
+.wrap{ width:min(1180px, calc(100% - 48px)); margin:0 auto; }
+.pagehead{ padding:54px 0 14px; text-align:center; }
+.pagehead h1{ font-weight:480; font-size:clamp(26px,4vw,40px); letter-spacing:-.03em; }
+.pagehead h1 em{ font-style:italic; color:var(--mint-deep); }
+.pagehead p{ margin:12px auto 0; max-width:560px; color:var(--ink-2); font-size:16px; }
+
+.opt{ padding:34px 0 26px; }
+.opt__label{ display:inline-flex; align-items:center; gap:10px; margin:0 0 16px;
+  font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--mint-deep); }
+.opt__label b{ color:var(--ink); font-weight:700; }
+.opt__label .num{ width:24px; height:24px; border-radius:7px; display:grid; place-items:center;
+  background:var(--mint-100); border:1px solid var(--mint-300); color:var(--mint-deep); font-size:12.5px; }
+.opt__hint{ font-family:var(--sans); font-weight:500; letter-spacing:0; text-transform:none; color:var(--ink-3); font-size:13px; }
+
+/* ── CTA stage ── */
+.stage{ position:relative; overflow:hidden; border-radius:28px; border:1px solid var(--mint-200);
+  background:radial-gradient(130% 90% at 50% -10%, #E6F7EE 0%, #F2FBF7 40%, #FFFFFF 82%);
+  box-shadow: inset 0 1px 0 #fff, 0 30px 70px -42px rgba(22,39,31,.28);
+  display:grid; grid-template-columns:1fr 0.92fr; gap:30px; align-items:center; padding:44px 48px; min-height:500px; }
+.cta__copy{ }
+.cta__title{ font-family:var(--sans); font-weight:480; letter-spacing:-.03em; line-height:1.05;
+  font-size:clamp(28px,3.6vw,44px); color:var(--ink); }
+.cta__title em{ font-style:italic; color:var(--mint-deep); }
+.cta__sub{ margin-top:16px; max-width:420px; color:var(--ink-2); font-size:16px; line-height:1.55; }
+.cta__actions{ display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
+  font-family:var(--sans); font-weight:600; font-size:15px; border-radius:13px; padding:14px 22px; border:1px solid transparent;
+  transition:transform .14s ease, box-shadow .14s ease, background .2s ease; }
+.btn--primary{ color:var(--mint-ink); background:linear-gradient(180deg, var(--gls-1), var(--gls-2));
+  border:1px solid var(--gls-edge); backdrop-filter:blur(10px) saturate(1.5); -webkit-backdrop-filter:blur(10px) saturate(1.5);
+  text-shadow:0 1px 0 rgba(255,255,255,.4);
+  box-shadow:inset 0 1px 0 var(--gls-sheen), 0 12px 28px -12px rgba(38,150,100,.5); }
+.btn--primary:hover{ transform:translateY(-1px); }
+.btn--ghost{ color:var(--ink); background:rgba(255,255,255,.5); border:1px solid var(--line); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+.btn--ghost:hover{ transform:translateY(-1px); background:rgba(255,255,255,.78); }
+
+/* ── the ladder (shared) ── */
+.cta__ladderwrap{ display:flex; flex-direction:column; align-items:center; gap:16px; }
+.ladder{ position:relative; height:404px; width:300px; max-width:100%; }
+.ladder__rail{ position:absolute; left:19px; top:0; bottom:0; width:3px; border-radius:3px; background:var(--line); }
+.ladder__fill{ position:absolute; left:19px; bottom:0; width:3px; border-radius:3px; height:0;
+  background:linear-gradient(180deg, var(--mint), var(--mint-deep)); transition:height .6s var(--ease-out); }
+.rung{ position:absolute; left:0; right:0; transform:translateY(50%); display:flex; align-items:center; }
+.rung__dot{ position:absolute; left:9px; width:24px; height:24px; border-radius:50%; display:grid; place-items:center;
+  background:#fff; border:2px solid var(--line); color:var(--ink-3); transition:all .45s var(--ease-out); z-index:2; }
+.rung__dot svg{ width:13px; height:13px; }
+.rung__label{ margin-left:50px; display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
+  font-family:var(--sans); font-weight:560; font-size:15px; color:var(--ink-3);
+  background:#fff; border:1px solid var(--line); border-radius:999px; padding:9px 16px;
+  box-shadow:0 1px 2px rgba(22,39,31,.04); transition:all .45s var(--ease-out); }
+.rung.is-goal .rung__label{ font-weight:700; }
+.rung.done .rung__dot{ background:var(--mint); border-color:var(--mint); color:#fff; box-shadow:0 0 0 4px rgba(71,193,137,.14); }
+.rung.done .rung__label{ color:var(--mint-ink); background:var(--mint-100); border-color:var(--mint-300); }
+.rung.is-goal.done .rung__label{ background:linear-gradient(180deg, var(--gls-1), var(--gls-2)); color:var(--mint-ink); border-color:var(--gls-edge); }
+.climber{ position:absolute; left:7px; bottom:0; width:28px; height:28px; border-radius:50%; transform:translateY(50%);
+  background:radial-gradient(circle at 35% 30%, #c5f3dd, var(--mint) 60%, var(--mint-deep));
+  box-shadow:0 0 0 6px rgba(71,193,137,.16), 0 6px 16px rgba(38,150,100,.45); z-index:3;
+  transition:bottom .6s var(--ease-out); }
+.climber::after{ content:""; position:absolute; inset:-6px; border-radius:50%; border:2px solid rgba(71,193,137,.35);
+  animation:ring 2.2s var(--ease-soft) infinite; }
+@keyframes ring{ 0%{ transform:scale(.7); opacity:.8 } 70%{ opacity:0 } 100%{ transform:scale(1.7); opacity:0 } }
+
+/* drag variant: token tray */
+.tray{ display:flex; flex-wrap:wrap; gap:9px; justify-content:center; max-width:320px; }
+.dtoken{ display:inline-flex; align-items:center; gap:7px; cursor:grab; user-select:none; -webkit-user-select:none; touch-action:none;
+  font-family:var(--sans); font-weight:600; font-size:13.5px; color:var(--mint-ink);
+  background:var(--mint-100); border:1px solid var(--mint-300); border-radius:999px; padding:9px 14px;
+  box-shadow:0 4px 12px -6px rgba(38,150,100,.4); transition:transform .18s var(--ease-out), opacity .25s ease, box-shadow .18s; }
+.dtoken svg{ width:15px; height:15px; }
+.dtoken:active{ cursor:grabbing; }
+.dtoken.is-dragging{ box-shadow:0 14px 26px -10px rgba(38,150,100,.55); }
+.dtoken.used{ opacity:0; pointer-events:none; transform:scale(.6); }
+.tray__hint{ width:100%; text-align:center; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); }
+.ladder.drop-hot .ladder__rail{ background:var(--mint-300); }
+
+.note{ text-align:center; color:var(--ink-3); font-size:13px; padding:30px 0 70px; }
+
+@media (max-width:820px){
+  .stage{ grid-template-columns:1fr; gap:28px; padding:34px 22px; min-height:0; }
+  .cta__sub{ max-width:none; }
+  .ladder{ width:280px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .climber, .ladder__fill, .rung__dot, .rung__label{ transition:none; }
+  .climber::after{ animation:none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pagehead">
+    <h1>Ladder CTA — <em>3 options</em></h1>
+    <p>Same idea (build your profile, rung by rung from résumé → green card), three interaction styles. Scroll through and tell me which feels best.</p>
+  </div>
+
+  <!-- OPTION 1 -->
+  <section class="opt">
+    <div class="opt__label"><span class="num">1</span> <b>Climb&nbsp;animation</b> · <span class="opt__hint">auto-climbs on loop, rungs light up</span></div>
+    <div class="stage">
+      <div class="cta__copy">
+        <h2 class="cta__title">Build your case, <em>rung by rung.</em></h2>
+        <p class="cta__sub">Every judging seat, talk, and award is one more step from résumé to green card — and we surface them weekly.</p>
+        <div class="cta__actions">
+          <span class="btn btn--primary">Build my profile · free</span>
+          <span class="btn btn--ghost">See how it works</span>
+        </div>
+      </div>
+      <div class="cta__ladderwrap">
+        <div class="ladder" data-mode="climb"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPTION 2 -->
+  <section class="opt">
+    <div class="opt__label"><span class="num">2</span> <b>Drag&nbsp;onto&nbsp;the&nbsp;rungs</b> · <span class="opt__hint">drag the tokens up to build &amp; climb</span></div>
+    <div class="stage">
+      <div class="cta__copy">
+        <h2 class="cta__title">Build your case, <em>rung by rung.</em></h2>
+        <p class="cta__sub">Drag each opportunity onto the ladder — watch your profile climb toward approval as the evidence stacks up.</p>
+        <div class="cta__actions">
+          <span class="btn btn--primary">Build my profile · free</span>
+          <span class="btn btn--ghost">See how it works</span>
+        </div>
+      </div>
+      <div class="cta__ladderwrap">
+        <div class="ladder" data-mode="drag"></div>
+        <div class="tray"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPTION 3 -->
+  <section class="opt">
+    <div class="opt__label"><span class="num">3</span> <b>Scroll&nbsp;to&nbsp;climb</b> · <span class="opt__hint">the climber rises as you scroll this section</span></div>
+    <div class="stage">
+      <div class="cta__copy">
+        <h2 class="cta__title">Build your case, <em>rung by rung.</em></h2>
+        <p class="cta__sub">Scroll and watch yourself climb — résumé at the bottom, green card at the top, every rung an opportunity you collected.</p>
+        <div class="cta__actions">
+          <span class="btn btn--primary">Build my profile · free</span>
+          <span class="btn btn--ghost">See how it works</span>
+        </div>
+      </div>
+      <div class="cta__ladderwrap">
+        <div class="ladder" data-mode="scroll"></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="note">Tell me the number you like (or mix ideas) and I'll build it into the real CTA.</p>
+</div>
+
+<script>
+// ── shared ladder definition (bottom → top) ──────────────────────────
+var RUNGS = [
+  { label: 'Résumé', goal: false, icon: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/>' },
+  { label: 'Peer review', goal: false, icon: '<path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.4"/>' },
+  { label: 'Speaking', goal: false, icon: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/>' },
+  { label: 'Judging', goal: false, icon: '<path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7 3 12a3 3 0 0 0 6 0L7 7M19 7l-2 5a3 3 0 0 0 6 0l-2-5"/>' },
+  { label: 'Awards', goal: false, icon: '<circle cx="12" cy="9" r="5"/><path d="m8.5 13-1 7 4.5-2.6L16.5 20l-1-7"/>' },
+  { label: 'Green card', goal: true, icon: '<path d="m5 12 5 5 9-10"/>' }
+];
+var N = RUNGS.length;
+var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg>';
+function ic(p){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function buildLadder(el) {
+  el.innerHTML = '<div class="ladder__rail"></div><div class="ladder__fill"></div>';
+  RUNGS.forEach(function (r, i) {
+    var li = document.createElement('div');
+    li.className = 'rung' + (r.goal ? ' is-goal' : '');
+    li.style.bottom = (i / (N - 1) * 100) + '%';
+    li.dataset.i = i;
+    li.innerHTML = '<span class="rung__dot">' + ic(r.icon) + '</span><span class="rung__label">' + r.label + '</span>';
+    el.appendChild(li);
+  });
+  var climber = document.createElement('div');
+  climber.className = 'climber';
+  el.appendChild(climber);
+  el._climber = climber;
+  el._fill = el.querySelector('.ladder__fill');
+  el._rungs = Array.prototype.slice.call(el.querySelectorAll('.rung'));
+  return el;
+}
+function setProgress(el, active) {
+  active = Math.max(0, Math.min(N - 1, active));
+  var pct = (active / (N - 1)) * 100;
+  el._climber.style.bottom = pct + '%';
+  el._fill.style.height = pct + '%';
+  el._rungs.forEach(function (r, i) {
+    var done = i <= active;
+    r.classList.toggle('done', done);
+    if (done && i === active) r.querySelector('.rung__dot').innerHTML = (RUNGS[i].goal ? CHECK : ic(RUNGS[i].icon));
+    if (done) r.querySelector('.rung__dot').innerHTML = CHECK;
+    else r.querySelector('.rung__dot').innerHTML = ic(RUNGS[i].icon);
+  });
+}
+
+// ── MODE 1: auto climb loop (runs only while in view) ───────────────
+function modeClimb(el) {
+  setProgress(el, 0);
+  if (reduce) { setProgress(el, N - 1); return; }
+  var active = 0, timer = null, running = false;
+  function tick() {
+    active++;
+    if (active >= N) { // reached the top — hold, then reset
+      setProgress(el, N - 1);
+      timer = setTimeout(function () { active = 0; setProgress(el, 0); timer = setTimeout(tick, 900); }, 1900);
+      return;
+    }
+    setProgress(el, active);
+    timer = setTimeout(tick, 950);
+  }
+  function start() { if (running) return; running = true; active = 0; setProgress(el, 0); timer = setTimeout(tick, 700); }
+  function stop() { running = false; clearTimeout(timer); }
+  new IntersectionObserver(function (e) { e.forEach(function (x) { x.isIntersecting ? start() : stop(); }); }, { threshold: .35 }).observe(el);
+}
+
+// ── MODE 2: drag tokens onto the ladder to build/climb ──────────────
+function modeDrag(el) {
+  setProgress(el, 0); // start: résumé done
+  var tray = el.closest('.cta__ladderwrap').querySelector('.tray');
+  var placed = 1; // index of next rung to fill (0 = résumé already done)
+  var order = [1, 2, 3, 4]; // opportunity rungs to fill in order
+  // tray tokens = the opportunities (shuffled feel kept simple, in order)
+  tray.innerHTML = '<span class="tray__hint">Drag these onto the ladder ↑</span>';
+  [1, 2, 3, 4].forEach(function (i) {
+    var t = document.createElement('span');
+    t.className = 'dtoken'; t.dataset.rung = i;
+    t.innerHTML = ic(RUNGS[i].icon) + '<span>' + RUNGS[i].label + '</span>';
+    tray.appendChild(t);
+    makeDraggable(t);
+  });
+  function ladderHit(x, y) { var r = el.getBoundingClientRect(); return x >= r.left - 30 && x <= r.right + 30 && y >= r.top && y <= r.bottom; }
+  function makeDraggable(t) {
+    var sx, sy, dragging = false;
+    t.addEventListener('pointerdown', function (e) {
+      dragging = true; t.setPointerCapture(e.pointerId); t.classList.add('is-dragging');
+      sx = e.clientX; sy = e.clientY; t.style.position = 'relative'; t.style.zIndex = 50;
+    });
+    t.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      t.style.transform = 'translate(' + (e.clientX - sx) + 'px,' + (e.clientY - sy) + 'px) scale(1.04)';
+      el.classList.toggle('drop-hot', ladderHit(e.clientX, e.clientY));
+    });
+    function end(e) {
+      if (!dragging) return; dragging = false; t.classList.remove('is-dragging'); el.classList.remove('drop-hot');
+      try { t.releasePointerCapture(e.pointerId); } catch (x) {}
+      if (ladderHit(e.clientX, e.clientY) && placed < N) {
+        t.classList.add('used'); setProgress(el, placed); placed++;
+        if (placed >= N - 1 + 1) { /* all opps placed */ }
+        if (placed === N - 1) { setTimeout(function () { setProgress(el, N - 1); placed = N; }, 650); } // auto-finish to green card
+      } else { t.style.transform = ''; t.style.zIndex = ''; }
+    }
+    t.addEventListener('pointerup', end);
+    t.addEventListener('pointercancel', end);
+  }
+}
+
+// ── MODE 3: scroll progress climbs the ladder ───────────────────────
+function modeScroll(el) {
+  setProgress(el, 0);
+  if (reduce) { setProgress(el, N - 1); return; }
+  var section = el.closest('.opt');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      var r = section.getBoundingClientRect();
+      var vh = window.innerHeight;
+      // progress 0..1 as the section travels from entering (bottom) to leaving (top)
+      var p = (vh - r.top) / (vh + r.height);
+      p = Math.max(0, Math.min(1, p));
+      setProgress(el, Math.round(p * (N - 1)));
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+}
+
+document.querySelectorAll('.ladder').forEach(function (el) {
+  buildLadder(el);
+  var m = el.dataset.mode;
+  if (m === 'climb') modeClimb(el);
+  else if (m === 'drag') modeDrag(el);
+  else if (m === 'scroll') modeScroll(el);
+});
+</script>
+</body>
+</html>
