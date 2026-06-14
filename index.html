@@ -517,12 +517,19 @@ img{ max-width:100%; display:block; }
 
 /* ── right stage ── */
 .sc__stage{ position:relative; height:clamp(440px,64vh,564px); }
+/* panel swap: a felt lift + zoom crossfade. Opacity is quicker than the
+   transform, so each panel glides into place after it appears (settles,
+   never pops). The incoming fade is nudged .08s so the outgoing clears
+   first — a clean handoff instead of a muddy 50/50 blend. */
 .sc__panel{
-  position:absolute; inset:0; opacity:0; transform:translateY(28px) scale(.984);
-  transition:opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
-  pointer-events:none; will-change:opacity,transform;
+  position:absolute; inset:0; opacity:0; transform:translateY(38px) scale(.96);
+  transition:opacity .5s var(--ease-soft), transform .75s var(--ease-out);
+  pointer-events:none; will-change:opacity, transform;
 }
-.sc__panel.is-active{ opacity:1; transform:none; pointer-events:auto; }
+.sc__panel.is-active{
+  opacity:1; transform:translateY(0) scale(1); pointer-events:auto;
+  transition:opacity .55s var(--ease-soft) .08s, transform .75s var(--ease-out);
+}
 .sc__panel-title{ display:none; }
 
 /* ── the light dashboard card ── */
