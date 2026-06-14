@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Staircase CTA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#16271F; --ink-2:#4E6157; --ink-3:#7E948A;
+  --mint:#47C189; --mint-deep:#1B7A50; --mint-ink:#0E4E33;
+  --mint-100:#ECF9F2; --mint-200:#D8F1E4; --mint-300:#BCE7D2;
+  --line:#E4EBE6; --well:#F3F7F4;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+  --mono:"Space Grotesk","Inter",system-ui,sans-serif;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --gls-1:rgba(124,229,182,.76); --gls-2:rgba(60,185,127,.70); --gls-edge:rgba(255,255,255,.55); --gls-sheen:rgba(255,255,255,.72);
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{ font-family:var(--sans); color:var(--ink); background:#fff; letter-spacing:-.006em; -webkit-font-smoothing:antialiased; font-optical-sizing:auto; }
+.wrap{ width:min(1180px, calc(100% - 48px)); margin:0 auto; padding:46px 0 70px; }
+.tag-top{ font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--mint-deep); margin-bottom:16px; }
+
+/* ── stage with the staircase composition ── */
+.stage{ position:relative; overflow:hidden; isolation:isolate; border-radius:28px; border:1px solid var(--mint-200);
+  background:radial-gradient(130% 95% at 50% -8%, #E7F7EF 0%, #F3FBF7 42%, #FFFFFF 84%);
+  box-shadow: inset 0 1px 0 #fff, 0 30px 70px -42px rgba(22,39,31,.28);
+  display:grid; place-items:center; text-align:center; padding:96px 50px 110px; min-height:548px; }
+
+.stairs{ position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,#000 0%, transparent 33%, transparent 67%, #000 100%);
+          mask-image:linear-gradient(90deg,#000 0%, transparent 33%, transparent 67%, #000 100%); }
+.step{ position:absolute; bottom:var(--b); width:var(--w); height:44px; border-radius:13px;
+  background:linear-gradient(180deg, rgba(124,229,182,.24), rgba(60,185,127,.15));
+  border:1px solid rgba(124,229,182,.42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 12px 26px -16px rgba(38,150,100,.55);
+  -webkit-backdrop-filter:blur(7px) saturate(1.2); backdrop-filter:blur(7px) saturate(1.2);
+  opacity:0; transform:translateY(16px);
+  transition:opacity .7s var(--ease-out), transform .7s var(--ease-out);
+  transition-delay:calc(var(--n) * 85ms); }
+.step.l{ left:var(--x); } .step.r{ right:var(--x); }
+.stage.in .step{ opacity:var(--o); transform:none; }
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .step{ background:linear-gradient(180deg, rgba(124,229,182,.26), rgba(60,185,127,.18)); } }
+
+.cta{ position:relative; z-index:1; max-width:580px; margin:0 auto; }
+.cta__tag{ display:inline-flex; align-items:center; gap:9px; font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--mint-deep); }
+.cta__tag::before{ content:""; width:3px; height:13px; border-radius:2px; background:var(--mint); }
+.cta__title{ font-family:var(--sans); font-weight:480; letter-spacing:-.03em; line-height:1.05; font-size:clamp(30px,4vw,50px); margin-top:16px; }
+.cta__title em{ font-style:italic; color:var(--mint-deep); }
+.cta__sub{ margin:16px auto 0; max-width:440px; color:var(--ink-2); font-size:16.5px; line-height:1.55; }
+.cta__actions{ display:flex; gap:12px; justify-content:center; margin-top:28px; flex-wrap:wrap; }
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; font-weight:600; font-size:15px; border-radius:13px; padding:14px 22px; border:1px solid transparent; transition:transform .14s ease, background .2s ease; }
+.btn--primary{ color:var(--mint-ink); background:linear-gradient(180deg, var(--gls-1), var(--gls-2)); border:1px solid var(--gls-edge); backdrop-filter:blur(10px) saturate(1.5); -webkit-backdrop-filter:blur(10px) saturate(1.5); text-shadow:0 1px 0 rgba(255,255,255,.4); box-shadow:inset 0 1px 0 var(--gls-sheen), 0 12px 28px -12px rgba(38,150,100,.5); }
+.btn--primary:hover{ transform:translateY(-1px); }
+.btn--ghost{ color:var(--ink); background:rgba(255,255,255,.55); border:1px solid var(--line); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+.btn--ghost:hover{ transform:translateY(-1px); background:rgba(255,255,255,.8); }
+
+@media (max-width:760px){ .stairs{ display:none; } .stage{ padding:54px 24px 60px; min-height:0; border-radius:22px; } }
+@media (prefers-reduced-motion: reduce){ .step{ transition:none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="tag-top">Staircase composition · centered CTA</p>
+  <div class="stage" id="ctaStage">
+    <div class="stairs" aria-hidden="true"></div>
+    <div class="cta">
+      <span class="cta__tag">Your green-card profile</span>
+      <h2 class="cta__title">Build your case, <em>step by step.</em></h2>
+      <p class="cta__sub">Turn scattered achievements into a structured, evidence-backed profile reviewers trust — one step at a time.</p>
+      <div class="cta__actions">
+        <span class="btn btn--primary">Build my profile · free</span>
+        <span class="btn btn--ghost">See how it works</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// single source of geometry — each side mirrors via the .l/.r anchor (left/right:var(--x))
+// steps climb from grounded-near-centre (n=0) up-and-outward toward the top corners, fading as they go
+var STEPS = [
+  { x: 176, b: 28, w: 128, o: .95 },
+  { x: 132, b: 96, w: 120, o: .80 },
+  { x: 88, b: 164, w: 112, o: .64 },
+  { x: 44, b: 232, w: 104, o: .50 },
+  { x: 6,  b: 300, w: 96,  o: .40 }
+];
+var stairs = document.querySelector('#ctaStage .stairs');
+['l', 'r'].forEach(function (side) {
+  STEPS.forEach(function (t, n) {
+    var i = document.createElement('i');
+    i.className = 'step ' + side;
+    i.style.cssText = '--x:' + t.x + 'px;--b:' + t.b + 'px;--w:' + t.w + 'px;--o:' + t.o + ';--n:' + n;
+    stairs.appendChild(i);
+  });
+});
+var stage = document.getElementById('ctaStage');
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { stage.classList.add('in'); }
+else {
+  var io = new IntersectionObserver(function (ents) { ents.forEach(function (en) { if (en.isIntersecting) { stage.classList.add('in'); io.unobserve(en.target); } }); }, { threshold: 0.2 });
+  io.observe(stage);
+}
+</script>
+</body>
+</html>
