@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Texture options</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#16271F; --ink-2:#4E6157; --ink-3:#7E948A;
+  --mint:#47C189; --mint-deep:#1B7A50; --mint-ink:#0E4E33;
+  --mint-100:#ECF9F2; --mint-200:#D8F1E4; --mint-300:#BCE7D2;
+  --line:#E4EBE6; --band:#F4FAF7;
+  --sans:"Inter",system-ui,sans-serif; --mono:"Space Grotesk",sans-serif;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{ font-family:var(--sans); color:var(--ink); background:#fff; padding:30px 34px 50px; letter-spacing:-.006em; -webkit-font-smoothing:antialiased; }
+h1{ font-size:21px; font-weight:600; letter-spacing:-.02em; }
+.lead{ color:var(--ink-2); font-size:14px; margin:6px 0 4px; max-width:880px; line-height:1.5; }
+.sec-h{ font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--mint-deep); margin:26px 0 12px; }
+
+/* sample content used inside tiles */
+.card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:0 6px 14px -10px rgba(22,39,31,.25); }
+.card h4{ font-size:14px; font-weight:600; }
+.card p{ font-size:12px; color:var(--ink-2); margin-top:5px; line-height:1.5; }
+.eyebrow{ font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--mint-deep); }
+.htitle{ font-size:18px; font-weight:600; letter-spacing:-.02em; margin-top:6px; }
+
+.grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+.tile{ border:1px solid var(--line); border-radius:18px; overflow:hidden; }
+.tile__view{ position:relative; height:200px; padding:22px; display:flex; flex-direction:column; justify-content:center; gap:10px; overflow:hidden; isolation:isolate; }
+.tile__view > *{ position:relative; z-index:2; }
+.tile__cap{ padding:11px 16px; border-top:1px solid var(--line); background:#fff; }
+.tile__cap b{ font-size:13px; font-weight:600; }
+.tile__cap span{ font-size:11.5px; color:var(--ink-3); display:block; margin-top:2px; line-height:1.45; }
+.num{ position:absolute; top:10px; left:13px; z-index:3; font-family:var(--mono); font-weight:700; font-size:12px; color:var(--mint-deep); background:rgba(255,255,255,.8); border-radius:6px; padding:1px 7px; }
+
+/* ── 0 baseline: flat (current) ── */
+.t-flat{ background:var(--band); }
+
+/* ── 1 mint dot lattice (masked) — on pale-mint band ── */
+.t-dots{ background:var(--band); }
+.t-dots::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:radial-gradient(rgba(27,122,80,.07) 1px, transparent 1.6px);
+  background-size:22px 22px; background-position:-11px -11px;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent);
+          mask-image:linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent); }
+
+/* ── 2 mint aurora bloom — on white ── */
+.t-aurora{ background:#fff; }
+.t-aurora::before{ content:""; position:absolute; inset:-12%; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(46% 56% at 26% 32%, rgba(71,193,137,.20), transparent 70%),
+    radial-gradient(52% 62% at 78% 74%, rgba(124,229,182,.20), transparent 72%),
+    radial-gradient(60% 70% at 60% 50%, rgba(216,241,228,.5), transparent 76%); }
+
+/* ── 3 film grain — global garnish (over a faint gradient) ── */
+.t-grain{ background:linear-gradient(180deg,#E9F6EF,#fff); }
+.t-grain::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  opacity:.06; mix-blend-mode:multiply; background-image:var(--grain); background-size:180px 180px; }
+
+/* ── 4 card elevation upgrade — before / after ── */
+.t-cards{ background:#fff; flex-direction:row !important; align-items:center; gap:16px !important; }
+.card--flat{ box-shadow:0 1px 2px rgba(22,39,31,.08); border-color:#eef1ef; flex:1; }
+.card--lift{ flex:1; border:1px solid var(--mint-200);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 1px 1px rgba(27,122,80,.05), 0 8px 18px -10px rgba(27,122,80,.28), 0 22px 38px -24px rgba(27,122,80,.22); }
+.card--lift.is-feat{ border:1.5px solid var(--mint); }
+
+/* ── 5 how-it-works connective spine ── */
+.t-spine{ background:var(--band); }
+.t-spine::before{ content:""; position:absolute; left:14%; right:14%; top:50%; z-index:1; height:2px; pointer-events:none;
+  background-image:linear-gradient(90deg, rgba(27,122,80,.32) 0 6px, transparent 6px 12px); background-size:12px 2px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent); }
+.spine-row{ display:flex; justify-content:space-between; gap:10px; }
+.spine-step{ flex:1; background:#fff; border:1px solid var(--mint-200); border-radius:12px; padding:10px 8px; text-align:center;
+  box-shadow:0 8px 18px -12px rgba(27,122,80,.3); }
+.spine-step b{ display:grid; place-items:center; width:22px; height:22px; margin:0 auto 6px; border-radius:50%; background:linear-gradient(180deg,var(--mint),var(--mint-deep)); color:#fff; font-size:11px; font-family:var(--mono); }
+.spine-step span{ font-size:10.5px; color:var(--ink-2); }
+
+/* ── 6 blueprint grid (radial-masked) — accent zone ── */
+.t-blue{ background:#fff; }
+.t-blue::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:linear-gradient(rgba(27,122,80,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(27,122,80,.06) 1px, transparent 1px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(62% 72% at 50% 46%, #000, transparent 76%); mask-image:radial-gradient(62% 72% at 50% 46%, #000, transparent 76%); }
+
+/* ── 7 diagonal hatch — footer / callout garnish ── */
+.t-hatch{ background:#fff; border-top:1px solid rgba(71,193,137,.34); }
+.t-hatch::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:repeating-linear-gradient(45deg, rgba(27,122,80,.05) 0 1px, transparent 1px 9px); }
+
+/* ── recommended system preview (wide) ── */
+.combo{ border:1px solid var(--line); border-radius:20px; overflow:hidden; }
+.combo__hero{ position:relative; padding:34px 36px 30px; background:linear-gradient(120deg,#0E4E33,#1B7A50); color:#fff; overflow:hidden; isolation:isolate; }
+.combo__hero::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(55% 60% at 16% 78%, rgba(124,229,182,.32), transparent 70%), radial-gradient(50% 60% at 85% 10%, rgba(71,193,137,.22), transparent 72%); }
+.combo__hero::after{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.07; mix-blend-mode:overlay; background-image:var(--grain); background-size:180px; }
+.combo__hero > *{ position:relative; z-index:2; }
+.combo__hero h3{ font-size:24px; font-weight:560; letter-spacing:-.02em; max-width:520px; }
+.combo__hero h3 em{ font-style:italic; color:#BCE7D2; }
+.combo__hero p{ color:rgba(255,255,255,.8); font-size:13.5px; margin-top:8px; max-width:440px; }
+.combo__band{ position:relative; padding:26px 36px; background:var(--band); isolation:isolate; }
+.combo__band::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:radial-gradient(rgba(27,122,80,.06) 1px, transparent 1.6px); background-size:22px 22px;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 14%,#000 86%,transparent); mask-image:linear-gradient(180deg,transparent,#000 14%,#000 86%,transparent); }
+.combo__cards{ position:relative; z-index:2; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.combo__cards .card{ border:1px solid var(--mint-200); box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 10px 22px -14px rgba(27,122,80,.32); }
+</style>
+</head>
+<body>
+<h1>Texture options for the landing page</h1>
+<p class="lead">All are lightweight (pure CSS / inline SVG, no images), masked so they never touch a hard edge, and tuned to stay subtle. Recommendation: adopt the two signature textures (1 dot-lattice + 2 aurora), glued by 3 grain + 4 card depth.</p>
+
+<div class="sec-h">Recommended system — combined preview</div>
+<div class="combo">
+  <div class="combo__hero">
+    <span class="eyebrow" style="color:#BCE7D2">Your immigration profile</span>
+    <h3>Build your case, <em>step by step.</em></h3>
+    <p>Aurora bloom + fine grain lift the headline off a flat slab and anchor the eye.</p>
+  </div>
+  <div class="combo__band">
+    <div class="combo__cards">
+      <div class="card"><h4>Map your evidence</h4><p>Dot-lattice band behind mint-tinted cards reads as engineered precision.</p></div>
+      <div class="card"><h4>Surface opportunities</h4><p>Cards now lift off the band instead of vanishing into white.</p></div>
+      <div class="card"><h4>File petition-ready</h4><p>One quiet vocabulary repeated across the page.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-h">Each texture, isolated</div>
+<div class="grid">
+
+  <div class="tile"><div class="tile__view t-flat"><span class="num">0</span><span class="eyebrow">What we do</span><div class="card"><h4>Flat — current</h4><p>Cards sit on plain fills; lots of dead white/mint space.</p></div></div>
+    <div class="tile__cap"><b>Baseline (current)</b><span>For comparison — no texture.</span></div></div>
+
+  <div class="tile"><div class="tile__view t-dots"><span class="num">1</span><span class="eyebrow">What we do</span><div class="card"><h4>Mint dot-lattice</h4><p>Graph-paper precision, faded at the edges.</p></div></div>
+    <div class="tile__cap"><b>1 · Mint dot lattice ★ signature</b><span>Pale-mint bands (Features, Pricing); fainter on white. The biggest fix for dead zones.</span></div></div>
+
+  <div class="tile"><div class="tile__view t-aurora"><span class="num">2</span><span class="eyebrow">Get started</span><div class="htitle">Build your case, step by step.</div></div>
+    <div class="tile__cap"><b>2 · Mint aurora bloom ★ signature</b><span>Behind the hero headline + the footer CTA card. Atmospheric depth, anchors the eye.</span></div></div>
+
+  <div class="tile"><div class="tile__view t-grain"><span class="num">3</span><div class="card"><h4>Film grain</h4><p>A faint paper "tooth" over gradients — makes flat fills feel expensive.</p></div></div>
+    <div class="tile__cap"><b>3 · Film grain (3%)</b><span>Global garnish; debands the hero gradient. Glue, not a feature.</span></div></div>
+
+  <div class="tile"><div class="tile__view t-cards"><span class="num">4</span><div class="card card--flat"><h4>Before</h4><p>Flat shadow — fades into white.</p></div><div class="card card--lift is-feat"><h4>After</h4><p>Mint-tinted lift + top highlight + accent border.</p></div></div>
+    <div class="tile__cap"><b>4 · Card elevation upgrade</b><span>Every white card; mint border to promote the featured/CTA card.</span></div></div>
+
+  <div class="tile"><div class="tile__view t-spine"><span class="num">5</span><div class="spine-row"><div class="spine-step"><b>1</b><span>Map</span></div><div class="spine-step"><b>2</b><span>Match</span></div><div class="spine-step"><b>3</b><span>File</span></div></div></div>
+    <div class="tile__cap"><b>5 · How-it-works spine</b><span>Dotted mint path behind the step cards — turns boxes into a journey.</span></div></div>
+
+  <div class="tile"><div class="tile__view t-blue"><span class="num">6</span><span class="eyebrow">Criteria</span><div class="card"><h4>Blueprint grid</h4><p>Methodical / credible — radial-masked into a centre pool.</p></div></div>
+    <div class="tile__cap"><b>6 · Blueprint grid (accent)</b><span>One zone only (hero or criteria). Use instead of dots, not with — pick one signature.</span></div></div>
+
+  <div class="tile"><div class="tile__view t-hatch"><span class="num">7</span><span class="eyebrow" style="color:var(--ink-3)">GreenCard AI · © 2026</span><p style="font-size:12px;color:var(--ink-3);max-width:280px">Diagonal hatch gives the footer a finished "floor" + a defined top edge.</p></div>
+    <div class="tile__cap"><b>7 · Diagonal hatch (footer)</b><span>Tiny garnish — footer bar or a single callout chip only.</span></div></div>
+
+</div>
+</body>
+</html>
