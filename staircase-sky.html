@@ -440,9 +440,15 @@ function layout(){
   if(pw<1) return;
   var sw = pw<560 ? 108 : 158;
   var sh = pw<560 ? 34 : 42;
-  // diagonal lower-left -> upper-right; leave top-right for the card
-  var x0=pw*0.05, x1=pw*0.60;
-  var y0=ph*0.10, y1=ph*0.74;
+  // align the TOP of the staircase to the flag, so the climb leads right into it
+  var pr=play.getBoundingClientRect(), fr=card.getBoundingClientRect();
+  var flagLeft = fr.left - pr.left;
+  var flagBase = ph - (fr.bottom - pr.top);   // flag's base, measured up from play bottom
+  var x0=pw*0.05, y0=ph*0.10;
+  var x1 = Math.round(flagLeft + fr.width*0.34 - sw);  // last step tucks just under the flag's left
+  var y1 = Math.round(flagBase - sh*0.35);             // last step's top ≈ the flag's base level
+  x1 = Math.max(pw*0.40, Math.min(x1, pw - sw - 4));
+  y1 = Math.max(ph*0.40, Math.min(y1, ph - sh - 6));
   stepGeo=[];
   for(var i=0;i<NSTEP;i++){
     var t=i/(NSTEP-1);
