@@ -1501,9 +1501,15 @@ p{ text-wrap:pretty; }
 </section>
 
 <!-- ════ INTERACTIVE CTA — drag-and-throw opportunities ════ -->
+<style>
+/* embedded staircase-game CTA */
+.play .sg-frame{ display:block; width:100%; border:0; background:transparent; height:660px; }
+@media (max-width:760px){ .play .sg-frame{ height:700px; } }
+</style>
 <section class="play" aria-label="Get started">
   <div class="container">
-    <div class="play__stage" id="playStage">
+    <iframe class="sg-frame" src="staircase-sky-embed.html" title="Climb to approval — interactive demo" loading="lazy"></iframe>
+    <div class="play__stage" id="playStageOld" hidden>
       <div class="play__intro">
         <h2 class="play__title">Your next opportunity is in here. <em>Grab it.</em></h2>
         <p class="play__sub">Judging seats, talks, peer review, awards — matched to your profile weekly and filed as petition-ready evidence.</p>
@@ -1569,7 +1575,10 @@ p{ text-wrap:pretty; }
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<!-- interactive CTA replaced by embedded staircase game (staircase-sky-embed.html) -->
+<script>
+window.addEventListener('message', function(e){ if(e && e.data && e.data.sg==='how'){ var h=document.getElementById('how'); if(h) h.scrollIntoView({behavior:'smooth'}); } });
+</script>
 <script>
 // ── folder tabs ──────────────────────────────────────────────────────
 (function () {

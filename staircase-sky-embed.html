@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Climb to your green card — sky</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#16271F; --ink-2:#4E6157; --ink-3:#7E948A;
+  --mint:#47C189; --mint-deep:#1B7A50; --mint-ink:#0E4E33;
+  --mint-100:#ECF9F2; --mint-200:#D8F1E4; --mint-300:#BCE7D2;
+  --line:#E4EBE6; --well:#F3F7F4;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+  --mono:"Space Grotesk","Inter",system-ui,sans-serif;
+  --ease-out:cubic-bezier(.22,1,.36,1); --ease-soft:cubic-bezier(.4,0,.2,1);
+  --gls-1:rgba(124,229,182,.76); --gls-2:rgba(60,185,127,.70); --gls-edge:rgba(255,255,255,.55); --gls-sheen:rgba(255,255,255,.72);
+  /* sky tones */
+  --sky-1:#D4F1E4; --sky-2:#E9F8F0; --sky-3:#F6FCF9;
+  --step-mint-1:#C7EFD6; --step-mint-2:#8AD6AC; --step-mint-edge:#5CC089;
+  --step-white-1:#FFFFFF; --step-white-2:#EAF6F0; --step-white-edge:#CFE9DC;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html,body{ overflow-x:hidden; }
+body{ font-family:var(--sans); color:var(--ink); background:transparent; letter-spacing:-.006em; -webkit-font-smoothing:antialiased; font-optical-sizing:auto; }
+.wrap{ width:min(1180px, calc(100% - 40px)); margin:0 auto; padding:14px 0 16px; }
+.tag-top{ font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--mint-deep); margin-bottom:14px; }
+
+.stage{ position:relative; overflow:hidden; isolation:isolate; border-radius:28px; border:1px solid var(--mint-200);
+  box-shadow: inset 0 1px 0 #fff, 0 30px 70px -42px rgba(22,39,31,.28); min-height:620px;
+  background:linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 46%, var(--sky-3) 100%); }
+
+/* ════════════ SKY ════════════ */
+.sky{ position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.sun{ position:absolute; right:-6%; top:-14%; width:50%; height:70%;
+  background:radial-gradient(closest-side, rgba(255,255,240,.95) 0%, rgba(255,250,210,.5) 32%, rgba(124,229,182,.18) 60%, transparent 76%); }
+.clouds{ position:absolute; inset:0; }
+.cloud{ position:absolute; will-change:transform; }
+.cloud svg{ display:block; filter:drop-shadow(0 10px 14px rgba(90,150,120,.10)); }
+.stage.playing .cloud{ animation:cloudDrift var(--cdur,26s) var(--ease-soft) var(--cdelay,0s) infinite alternate; }
+@keyframes cloudDrift{ from{ transform:translateX(calc(var(--cdx,30px) * -1)) } to{ transform:translateX(var(--cdx,30px)) } }
+/* sea of clouds at the bottom */
+.cloudbank{ position:absolute; left:0; right:0; bottom:0; height:48%; z-index:0; pointer-events:none; }
+.cloudbank::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:55%; background:linear-gradient(180deg, transparent, rgba(247,252,249,.92)); }
+.bankcloud{ position:absolute; }
+.bankcloud svg{ filter:drop-shadow(0 6px 14px rgba(150,185,165,.18)); }
+.vignette{ position:absolute; inset:0; pointer-events:none; border-radius:28px; box-shadow:inset 0 0 90px 22px rgba(110,165,140,.12); }
+
+/* ════════════ HUD ════════════ */
+.gprompt{ position:absolute; left:30px; top:24px; z-index:6; max-width:250px; opacity:0; transition:opacity .4s ease; }
+.stage.playing .gprompt{ opacity:1; }
+.gprompt h3{ font-family:var(--sans); font-weight:600; font-size:18px; letter-spacing:-.02em; color:var(--ink); }
+.gprompt p{ margin-top:6px; font-size:13px; color:var(--ink-2); line-height:1.5; }
+.meter{ margin-top:14px; padding:12px 14px; border-radius:15px; background:rgba(255,255,255,.7);
+  border:1px solid rgba(216,241,228,.95); backdrop-filter:blur(8px) saturate(1.3); -webkit-backdrop-filter:blur(8px) saturate(1.3);
+  box-shadow:0 10px 26px -18px rgba(38,150,100,.5); }
+.meter__row{ display:flex; justify-content:space-between; align-items:baseline; font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--ink-3); }
+.meter__row b{ color:var(--mint-deep); font-size:14px; font-variant-numeric:tabular-nums; }
+.meter__bar{ margin-top:8px; height:7px; border-radius:99px; background:#E2EDE7; overflow:hidden; box-shadow:inset 0 1px 2px rgba(22,39,31,.08); }
+.meter__fill{ position:relative; height:100%; width:30%; border-radius:99px; background:linear-gradient(90deg,var(--mint),var(--mint-deep)); transition:width .55s var(--ease-out); }
+
+.skip{ position:absolute; right:22px; top:20px; z-index:7; font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ink-3); background:rgba(255,255,255,.72); border:1px solid var(--line); border-radius:999px; padding:7px 13px; cursor:pointer;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  opacity:0; transition:opacity .4s ease, color .2s, border-color .2s, background .2s; }
+.stage.playing .skip{ opacity:1; }
+.skip:hover{ color:var(--mint-deep); border-color:var(--mint-300); background:rgba(255,255,255,.96); }
+
+/* ════════════ PLAY ════════════ */
+.play{ position:absolute; left:0; right:0; top:0; bottom:108px; z-index:1; }
+
+/* ── GREEN CARD reward (top-right) ── */
+.card{ position:absolute; top:6%; right:5%; width:clamp(120px,14vw,156px); z-index:3; --glow:0;
+  filter:drop-shadow(0 18px 30px rgba(27,122,80,calc(.18 + var(--glow)*.22)));
+  transition:filter .6s var(--ease-out), transform .6s var(--ease-out); transform:translateY(0); }
+.stage.playing .card{ animation:cardFloat 5.5s var(--ease-soft) infinite; }
+@keyframes cardFloat{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-8px) } }
+.card__rays{ position:absolute; left:50%; top:50%; width:230%; height:230%; transform:translate(-50%,-50%); z-index:-1;
+  opacity:calc(var(--glow) * .9); transition:opacity .6s var(--ease-out); }
+.card__glow{ position:absolute; left:50%; top:50%; width:200%; height:200%; transform:translate(-50%,-50%); z-index:-1; border-radius:50%;
+  background:radial-gradient(closest-side, rgba(255,255,235,.9), rgba(255,247,200,.45) 40%, rgba(124,229,182,.16) 66%, transparent 78%);
+  opacity:calc(.15 + var(--glow) * .85); transition:opacity .6s var(--ease-out); }
+.card__face{ position:relative; width:100%; display:block; filter:drop-shadow(0 10px 16px rgba(27,122,80,.34)); }
+.card__tags{ position:absolute; left:50%; bottom:-12px; transform:translateX(-50%); white-space:nowrap;
+  font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.1em; color:var(--mint-deep);
+  background:rgba(255,255,255,.92); border:1px solid var(--mint-200); border-radius:999px; padding:4px 11px;
+  box-shadow:0 8px 18px -10px rgba(27,122,80,.5); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px);
+  opacity:calc(.6 + var(--glow,0)*.4); transition:opacity .5s var(--ease-out); }
+.card__sweep{ position:absolute; inset:0; z-index:4; pointer-events:none; opacity:0;
+  background:linear-gradient(105deg, transparent 38%, rgba(255,255,255,.75) 50%, transparent 62%);
+  transform:translateX(-120%); }
+.card.shine{ --glow:1; }
+.card.shine .card__rays{ animation:spin 16s linear infinite; }
+.card.shine .card__glow{ animation:glowPulse 2.6s var(--ease-soft) infinite; }
+.card.shine .card__sweep{ animation:sweep 1.1s var(--ease-out) .15s 1; }
+.card.shine .card__face{ animation:stampPop .6s var(--ease-out); }
+@keyframes stampPop{ 0%{ transform:translateY(10px) scale(.82); opacity:.5 } 55%{ transform:translateY(-4px) scale(1.06) } 100%{ transform:none } }
+.card__face .flagwave{ transform-box:fill-box; transform-origin:left center; }
+.stage.playing .card__face .flagwave{ animation:flagwave 2.8s var(--ease-soft) infinite; }
+.card.shine .card__face .flagwave{ animation-duration:1.5s; }
+@keyframes flagwave{ 0%,100%{ transform:skewY(0deg) scaleX(1) } 50%{ transform:skewY(-3.5deg) scaleX(.975) } }
+@keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg) } }
+@keyframes glowPulse{ 0%,100%{ opacity:.9 } 50%{ opacity:1 } }
+@keyframes sweep{ 0%{ transform:translateX(-120%); opacity:0 } 30%{ opacity:1 } 100%{ transform:translateX(120%); opacity:0 } }
+
+/* ── STEPS ── */
+.step{ position:absolute; height:36px; border-radius:20px; z-index:2;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transform:translateY(14px) scale(.8); transform-origin:center bottom;
+  transition:left .5s var(--ease-out), bottom .5s var(--ease-out), opacity .45s var(--ease-out), transform .45s var(--ease-out); }
+.step__face{ position:relative; width:100%; height:100%; border-radius:20px; display:grid; place-items:center; color:var(--mint-ink); z-index:1; }
+.step__face .ic{ width:19px; height:19px; opacity:.85; }
+/* 3D front thickness */
+.step__face::before{ content:""; position:absolute; left:4px; right:4px; top:62%; bottom:-13px; border-radius:0 0 18px 18px; z-index:-1; }
+/* glossy top sheen */
+.step__face::after{ content:""; position:absolute; left:9%; right:9%; top:5px; height:36%; border-radius:99px; background:linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,0)); pointer-events:none; }
+.step.white .step__face{ background:linear-gradient(180deg, var(--step-white-1), var(--step-white-2)); box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95), 0 16px 24px -16px rgba(27,122,80,.45); }
+.step.white .step__face::before{ background:linear-gradient(180deg, var(--step-white-2), var(--step-white-edge)); }
+.step.mint .step__face{ background:linear-gradient(180deg, var(--step-mint-1), var(--step-mint-2)); box-shadow:inset 0 1.5px 0 rgba(255,255,255,.8), 0 16px 24px -16px rgba(27,122,80,.5); }
+.step.mint .step__face{ color:#0c4630; }
+.step.mint .step__face::before{ background:linear-gradient(180deg, var(--step-mint-2), var(--step-mint-edge)); }
+/* visible / built / ghost / hidden */
+.step.show{ opacity:1; transform:none; }
+.step.ghost{ opacity:.5; }
+.step.ghost .step__face{ background:rgba(255,255,255,.34); border:1.6px dashed var(--mint-300); box-shadow:none; color:var(--mint-deep); }
+.step.ghost .step__face::before{ display:none; }
+.step.ghost .step__face::after{ display:none; }
+.step.ghost .step__face .ic{ opacity:.6; }
+.step.ghost.target{ opacity:.9; animation:targetPulse 1.5s var(--ease-soft) infinite; cursor:pointer; }
+@keyframes targetPulse{ 0%,100%{ transform:translateY(0); box-shadow:0 0 0 0 rgba(71,193,137,0) } 50%{ transform:translateY(-3px) } }
+.step.target .step__face{ box-shadow:0 0 0 4px rgba(71,193,137,.18); }
+.step.pop{ animation:stepPop .5s var(--ease-out); }
+@keyframes stepPop{ 0%{ transform:translateY(16px) scale(.7) } 55%{ transform:translateY(-4px) scale(1.06) } 100%{ transform:none } }
+.step.hidden{ display:none; }
+
+/* ── HERO (mascot) ── */
+.hero{ position:absolute; width:92px; height:98px; z-index:4; pointer-events:none;
+  transition:left .56s var(--ease-out), bottom .56s var(--ease-out); }
+.hero__shadow{ position:absolute; left:50%; bottom:-6px; width:46px; height:12px; transform:translateX(-50%);
+  background:radial-gradient(closest-side, rgba(27,80,54,.32), transparent 72%); filter:blur(2px); border-radius:50%;
+  transition:opacity .3s, transform .3s; }
+.hero__hop{ position:absolute; inset:0; }
+.hero__hop.hop{ animation:hop .56s var(--ease-out); }
+@keyframes hop{ 0%{ transform:translateY(0) scale(1,1) } 18%{ transform:translateY(4px) scale(1.12,.9) } 50%{ transform:translateY(-50px) scale(.94,1.13) } 80%{ transform:translateY(0) scale(1.08,.92) } 100%{ transform:translateY(0) scale(1,1) } }
+.hero__av{ width:100%; height:100%; display:block; }
+.hero__av .body{ transform-origin:42px 52px; }
+.stage.playing .hero__av .arm-r{ transform-box:fill-box; transform-origin:bottom right; animation:wave 2.4s var(--ease-soft) infinite; }
+@keyframes wave{ 0%,100%{ transform:rotate(0deg) } 50%{ transform:rotate(-16deg) } }
+
+/* landing dust + sparkles */
+.puff{ position:absolute; width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.9); pointer-events:none; z-index:3; box-shadow:0 0 6px rgba(124,229,182,.6); }
+.spark{ position:absolute; width:9px; height:9px; border-radius:50%; pointer-events:none; z-index:6;
+  background:radial-gradient(circle at 40% 35%, #fff, #ffe9a8 55%, rgba(124,229,182,.2)); box-shadow:0 0 10px rgba(255,225,150,.9); }
+
+/* ════════════ TRAY (opportunities) ════════════ */
+.dock{ position:absolute; left:18px; right:18px; bottom:18px; z-index:6; display:none;
+  flex-direction:column; align-items:center; gap:9px; padding:13px 16px 14px;
+  border-radius:18px; border:1px solid var(--mint-200);
+  background:linear-gradient(180deg, rgba(255,255,255,.82), rgba(243,247,244,.78));
+  backdrop-filter:blur(12px) saturate(1.4); -webkit-backdrop-filter:blur(12px) saturate(1.4);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 18px 40px -28px rgba(22,39,31,.55); }
+.stage.playing .dock{ display:flex; }
+.dock__cap{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10.5px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); }
+.dock__cap::before, .dock__cap::after{ content:""; width:20px; height:1px; }
+.dock__cap::before{ background:linear-gradient(90deg, transparent, var(--mint-300)); }
+.dock__cap::after{ background:linear-gradient(90deg, var(--mint-300), transparent); }
+.tray{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+.tok{ display:inline-flex; align-items:center; gap:8px; cursor:default; user-select:none; -webkit-user-select:none; touch-action:none;
+  font-weight:600; font-size:13.5px; color:var(--ink-3); border-radius:999px; padding:8px 15px 8px 8px;
+  background:rgba(255,255,255,.55); border:1px solid var(--line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7); opacity:.55;
+  transition:transform .25s var(--ease-out), opacity .3s ease, box-shadow .18s, border-color .18s, background .25s, color .25s; }
+.tok__chip{ display:grid; place-items:center; width:27px; height:27px; border-radius:50%; flex:none; color:var(--ink-3);
+  background:rgba(236,249,242,.7); box-shadow:inset 0 0 0 1px rgba(188,231,210,.6); transition:color .25s, background .25s; }
+.tok__chip svg{ width:15px; height:15px; }
+.tok.active{ cursor:grab; opacity:1; color:var(--mint-ink);
+  background:linear-gradient(180deg,#fff, var(--mint-100)); border-color:var(--mint-300);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 6px 14px -8px rgba(27,122,80,.5);
+  animation:tokPulse 1.7s var(--ease-soft) infinite; }
+.tok.active .tok__chip{ color:var(--mint-deep); background:radial-gradient(circle at 35% 30%, #fff, var(--mint-200)); box-shadow:inset 0 0 0 1px rgba(124,229,182,.55); }
+@keyframes tokPulse{ 0%,100%{ box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 6px 14px -8px rgba(27,122,80,.5), 0 0 0 0 rgba(71,193,137,0) } 50%{ box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 6px 14px -8px rgba(27,122,80,.5), 0 0 0 6px rgba(71,193,137,.16) } }
+.tok.active:active{ cursor:grabbing; }
+.tok.drag{ z-index:60; box-shadow:0 18px 30px -10px rgba(27,122,80,.6); border-color:var(--mint); animation:none; }
+.tok.done{ opacity:.45; color:var(--mint-deep); background:var(--mint-100); border-color:var(--mint-200); animation:none; }
+.tok.done .tok__chip{ color:#fff; background:linear-gradient(180deg,var(--mint),var(--mint-deep)); box-shadow:none; }
+
+/* ════════════ CTA ════════════ */
+.cta{ position:absolute; inset:0; z-index:5; display:grid; place-items:center; text-align:center; padding:50px; }
+.stage.playing .cta{ opacity:0; visibility:hidden; pointer-events:none; }
+.stage.done .cta{ animation:ctaReveal .85s var(--ease-out) both; }
+@keyframes ctaReveal{ from{ opacity:0; transform:translateY(20px) scale(.98) } to{ opacity:1; transform:none } }
+.stage.done .play{ filter:saturate(1.02); }
+.stage.done .game-dim{ opacity:.2; filter:blur(2px); }
+/* keep the shining card as the reward; dim only the staircase + hero */
+.stage.done .step, .stage.done .hero{ opacity:.16; filter:blur(2px); transition:opacity .6s var(--ease-out), filter .6s var(--ease-out); }
+.cta__in{ max-width:560px; }
+.cta__tag{ display:inline-flex; align-items:center; gap:9px; font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--mint-deep); }
+.cta__tag::before{ content:""; width:3px; height:13px; border-radius:2px; background:var(--mint); }
+.cta__title{ font-family:var(--sans); font-weight:480; letter-spacing:-.03em; line-height:1.05; font-size:clamp(30px,4vw,50px); margin-top:14px; color:var(--ink); }
+.cta__title em{ font-style:italic; color:var(--mint-deep); }
+.cta__sub{ margin:16px auto 0; max-width:430px; color:var(--ink-2); font-size:16.5px; line-height:1.55; }
+.cta__actions{ display:flex; gap:12px; justify-content:center; margin-top:26px; flex-wrap:wrap; }
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; font-weight:600; font-size:15px; border-radius:13px; padding:14px 22px; border:1px solid transparent; transition:transform .14s ease, background .2s ease, box-shadow .2s ease; text-decoration:none; }
+.btn--primary{ color:var(--mint-ink); background:linear-gradient(180deg,var(--gls-1),var(--gls-2)); border:1px solid var(--gls-edge); backdrop-filter:blur(10px) saturate(1.5); -webkit-backdrop-filter:blur(10px) saturate(1.5); text-shadow:0 1px 0 rgba(255,255,255,.4); box-shadow:inset 0 1px 0 var(--gls-sheen), 0 12px 28px -12px rgba(38,150,100,.5); }
+.btn--primary:hover{ transform:translateY(-1px); box-shadow:inset 0 1px 0 var(--gls-sheen), 0 16px 34px -12px rgba(38,150,100,.6); }
+.btn--ghost{ color:var(--ink); background:rgba(255,255,255,.62); border:1px solid var(--line); }
+.btn--ghost:hover{ transform:translateY(-1px); background:rgba(255,255,255,.88); }
+.replay{ position:absolute; left:50%; bottom:22px; transform:translateX(-50%); z-index:6; display:none; align-items:center; gap:7px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); cursor:pointer; }
+.stage.done .replay{ display:inline-flex; }
+.replay:hover{ color:var(--mint-deep); }
+
+/* ════════════ mobile ════════════ */
+@media (max-width:760px){
+  .wrap{ width:min(1180px, calc(100% - 28px)); }
+  .stage{ min-height:640px; }
+  .gprompt{ left:14px; right:120px; top:14px; max-width:none; }
+  .gprompt h3{ font-size:16px; }
+  .gprompt p{ font-size:12.5px; }
+  .meter{ padding:10px 12px; margin-top:11px; }
+  .skip{ right:12px; top:12px; }
+  .card{ top:10%; right:4%; width:104px; }
+  .play{ bottom:132px; }
+  .dock{ left:12px; right:12px; bottom:14px; padding:11px 12px 12px; }
+  .tok{ font-size:12px; padding:7px 12px 7px 6px; }
+  .tok__chip{ width:23px; height:23px; }
+  .hero{ width:76px; height:82px; }
+  .cta{ padding:34px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .step,.hero,.cta,.meter__fill,.card{ transition:none; }
+  .cloud,.tok.active,.card.shine .card__rays,.card.shine .card__glow,.card__sweep,.card__face .flagwave,.card.shine .card__face,.step.ghost.target,.stage.playing .card,.stage.playing .hero__av .arm-r{ animation:none !important; }
+  .stage.done .cta{ animation:none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage" id="stage">
+
+    <!-- SKY -->
+    <div class="sky" aria-hidden="true">
+      <div class="sun"></div>
+      <div class="clouds" id="clouds"></div>
+      <div class="cloudbank" id="cloudbank"></div>
+      <div class="vignette"></div>
+    </div>
+
+    <!-- HUD -->
+    <div class="gprompt game-dim">
+      <h3>Climb to approval</h3>
+      <p>Add each opportunity — your character hops up one step at a time toward your O-1, L-1 or green card.</p>
+      <div class="meter">
+        <div class="meter__row"><span>Profile readiness</span><b id="pct">30%</b></div>
+        <div class="meter__bar"><div class="meter__fill" id="fill"></div></div>
+      </div>
+    </div>
+    <div class="skip" id="skip">Skip →</div>
+
+    <!-- PLAY -->
+    <div class="play" id="play">
+      <div class="card" id="card" aria-label="Reach the summit">
+        <svg class="card__rays" viewBox="0 0 100 100" aria-hidden="true">
+          <g fill="rgba(255,236,168,.9)">
+            <!-- rays generated via JS -->
+          </g>
+        </svg>
+        <div class="card__glow"></div>
+        <svg class="card__face" viewBox="0 0 130 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="flagG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#63CD92"/><stop offset="1" stop-color="#1B7A50"/></linearGradient>
+            <linearGradient id="moundG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A6E6C4"/><stop offset="1" stop-color="#3CA972"/></linearGradient>
+            <linearGradient id="poleG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#D8BE84"/><stop offset="1" stop-color="#8A6B3A"/></linearGradient>
+          </defs>
+          <!-- floating summit -->
+          <ellipse cx="65" cy="133" rx="48" ry="14" fill="url(#moundG)" opacity=".5"/>
+          <path d="M22 132 Q65 92 108 132 Z" fill="url(#moundG)"/>
+          <path d="M45 124 Q65 111 85 124 Q65 119 45 124 Z" fill="rgba(255,255,255,.45)"/>
+          <!-- pole -->
+          <rect x="62" y="28" width="5" height="92" rx="2.5" fill="url(#poleG)"/>
+          <circle cx="64.5" cy="28" r="4.5" fill="#F1C75A" stroke="#D7972A" stroke-width="1"/>
+          <!-- flag -->
+          <g class="flagwave">
+            <path d="M67 32 L116 44 Q107 51 116 59 L67 66 Z" fill="url(#flagG)"/>
+            <path d="M0,-9 L2.6,-2.6 L9,0 L2.6,2.6 L0,9 L-2.6,2.6 L-9,0 L-2.6,-2.6 Z" transform="translate(87,49)" fill="rgba(255,255,255,.95)"/>
+          </g>
+        </svg>
+      </div>
+      <!-- steps + hero injected here -->
+    </div>
+
+    <!-- TRAY -->
+    <div class="dock" id="dock">
+      <div class="dock__cap">Your opportunities</div>
+      <div class="tray" id="tray"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <div class="cta__in">
+        <span class="cta__tag">Your immigration profile · O-1 · L-1 · EB-1A</span>
+        <h2 class="cta__title">Build your case, <em>step by step.</em></h2>
+        <p class="cta__sub">Turn scattered achievements into a structured, evidence-backed profile reviewers trust — one step at a time.</p>
+        <div class="cta__actions">
+          <a class="btn btn--primary" href="/signup" target="_top">Build my profile · free</a>
+          <a class="btn btn--ghost" href="#how" id="sgSeeHow">See how it works</a>
+        </div>
+      </div>
+    </div>
+    <div class="replay" id="replay">↺ Play again</div>
+  </div>
+</div>
+
+<script>
+var I = {
+  doc:'<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/>',
+  eye:'<path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.3"/>',
+  mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/>',
+  scales:'<path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7 3 12a3 3 0 0 0 6 0L7 7M19 7l-2 5a3 3 0 0 0 6 0l-2-5"/>',
+  people:'<circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.6a3 3 0 0 1 0 5.8M20.5 20a5.5 5.5 0 0 0-4-5.3"/>',
+  medal:'<circle cx="12" cy="9" r="5"/><path d="m8.5 13-1 7 4.5-2.6L16.5 20l-1-7"/>'
+};
+function sv(p,c){ return '<svg class="'+(c||'ic')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'; }
+
+// step 0 = base (Résumé); steps 1..5 are the opportunities to add
+var STEP_ICONS=[I.doc,I.eye,I.mic,I.scales,I.people,I.medal];
+var OPP=[
+  {label:'Peer review', icon:I.eye},
+  {label:'Speaking',    icon:I.mic},
+  {label:'Judging',     icon:I.scales},
+  {label:'Mentorship',  icon:I.people},
+  {label:'Awards',      icon:I.medal}
+];
+var NSTEP=6;            // total steps (incl. base)
+var NOPP=OPP.length;    // 5
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+var stage=document.getElementById('stage'), play=document.getElementById('play'),
+    tray=document.getElementById('tray'), card=document.getElementById('card'),
+    fill=document.getElementById('fill'), pct=document.getElementById('pct');
+var stepEls=[], chips=[], hero, stepGeo=[], placed=0, busy=false;
+
+/* ── sun rays behind the card ── */
+(function makeRays(){
+  var g=card.querySelector('.card__rays g'); if(!g) return;
+  var s='';
+  for(var i=0;i<16;i++){ var a=i*(360/16); var w=(i%2)?1.6:3.4;
+    s+='<polygon points="50,50 '+(50-w)+',6 '+(50+w)+',6" transform="rotate('+a+' 50 50)"/>';
+  }
+  g.innerHTML=s;
+})();
+
+/* ── clouds ── */
+(function makeClouds(){
+  var host=document.getElementById('clouds'); if(!host) return;
+  var cloudSVG='<svg viewBox="0 0 120 60" width="100%" height="100%"><g fill="#ffffff"><ellipse cx="42" cy="40" rx="34" ry="20"/><ellipse cx="72" cy="32" rx="27" ry="22"/><ellipse cx="92" cy="42" rx="22" ry="15"/><ellipse cx="60" cy="48" rx="46" ry="13"/></g></svg>';
+  var defs=[
+    {l:4,  t:24, w:150, o:.95, dx:34, dur:30, d:0},
+    {l:30, t:62, w:120, o:.85, dx:24, dur:24, d:-6},
+    {l:62, t:14, w:120, o:.8,  dx:40, dur:34, d:-3},
+    {l:78, t:54, w:170, o:.95, dx:22, dur:27, d:-12},
+    {l:46, t:40, w:90,  o:.7,  dx:30, dur:21, d:-9},
+    {l:-2, t:70, w:130, o:.9,  dx:28, dur:33, d:-15},
+    {l:86, t:30, w:100, o:.75, dx:36, dur:23, d:-5}
+  ];
+  defs.forEach(function(c){
+    var d=document.createElement('div'); d.className='cloud';
+    d.style.left=c.l+'%'; d.style.top=c.t+'%'; d.style.width=c.w+'px'; d.style.opacity=c.o;
+    d.style.setProperty('--cdx', c.dx+'px'); d.style.setProperty('--cdur', c.dur+'s'); d.style.setProperty('--cdelay', c.d+'s');
+    d.innerHTML=cloudSVG; host.appendChild(d);
+  });
+})();
+
+/* ── cloud bank (sea of clouds at the bottom) ── */
+(function makeBank(){
+  var host=document.getElementById('cloudbank'); if(!host) return;
+  var c='<svg viewBox="0 0 130 64" width="100%" height="100%"><g fill="#ffffff"><ellipse cx="40" cy="44" rx="38" ry="22"/><ellipse cx="74" cy="32" rx="32" ry="26"/><ellipse cx="101" cy="46" rx="26" ry="18"/><ellipse cx="62" cy="54" rx="56" ry="16"/></g></svg>';
+  var defs=[
+    {l:-8, w:330, b:-10, o:.98, dx:14, dur:42},
+    {l:14, w:250, b:18,  o:.88, dx:10, dur:34},
+    {l:34, w:340, b:-14, o:.98, dx:16, dur:48},
+    {l:56, w:280, b:12,  o:.95, dx:12, dur:38},
+    {l:76, w:330, b:-8,  o:.98, dx:15, dur:44},
+    {l:3,  w:210, b:34,  o:.8,  dx:9,  dur:30},
+    {l:62, w:220, b:38,  o:.78, dx:11, dur:33}
+  ];
+  defs.forEach(function(k){
+    var d=document.createElement('div'); d.className='cloud bankcloud';
+    d.style.left=k.l+'%'; d.style.width=k.w+'px'; d.style.bottom=k.b+'px'; d.style.opacity=k.o;
+    d.style.setProperty('--cdx',k.dx+'px'); d.style.setProperty('--cdur',k.dur+'s'); d.style.setProperty('--cdelay',(-(k.dur/3))+'s');
+    d.innerHTML=c; host.appendChild(d);
+  });
+})();
+
+function buildSteps(){
+  // remove old steps + hero (keep card)
+  Array.prototype.slice.call(play.querySelectorAll('.step,.hero,.puff,.spark')).forEach(function(n){ n.remove(); });
+  stepEls=[];
+  for(var i=0;i<NSTEP;i++){
+    var el=document.createElement('div');
+    el.className='step '+(i%2===0?'mint':'white');
+    el.dataset.i=i;
+    el.innerHTML='<div class="step__face">'+sv(STEP_ICONS[i])+'</div>';
+    play.appendChild(el); stepEls.push(el);
+    (function(idx,node){ node.addEventListener('click', function(){ if(node.classList.contains('target')) advance(); }); })(i,el);
+  }
+  hero=document.createElement('div'); hero.className='hero';
+  hero.innerHTML=
+    '<div class="hero__shadow"></div>'+
+    '<div class="hero__hop"><svg class="hero__av" viewBox="0 0 84 86" fill="none">'+
+      '<defs><radialGradient id="bodyG" cx="38%" cy="28%" r="80%"><stop offset="0" stop-color="#CFF6E1"/><stop offset="55%" stop-color="#5FC98E"/><stop offset="100%" stop-color="#36A86C"/></radialGradient></defs>'+
+      '<ellipse class="leg" cx="34" cy="78" rx="7" ry="6" fill="#36A86C"/>'+
+      '<ellipse class="leg" cx="52" cy="80" rx="7" ry="6" fill="#2E9C63"/>'+
+      '<g class="body">'+
+        '<path d="M22 22 q-6 -12 2 -16 q7 -3 9 7 z" fill="#54C188"/>'+
+        '<path d="M40 18 q2 -16 11 -14 q7 2 -1 12 z" fill="#48B97D"/>'+
+        '<ellipse cx="42" cy="46" rx="31" ry="32" fill="url(#bodyG)"/>'+
+        '<path class="arm-r" d="M67 40 q12 -6 11 -16 q-1 -6 -7 -3 q-6 4 -9 14 z" fill="#4FBF83"/>'+
+        '<path d="M17 50 q-11 2 -12 11 q0 6 6 4 q6 -3 9 -11 z" fill="#43B377"/>'+
+        '<ellipse cx="33" cy="44" rx="3.4" ry="4.4" fill="#16271F"/>'+
+        '<ellipse cx="51" cy="44" rx="3.4" ry="4.4" fill="#16271F"/>'+
+        '<circle cx="34.3" cy="42.4" r="1.2" fill="#fff"/>'+
+        '<circle cx="52.3" cy="42.4" r="1.2" fill="#fff"/>'+
+        '<path d="M36 54 q6 9 12 0 q-6 4 -12 0z" fill="#16271F"/>'+
+        '<ellipse cx="27" cy="52" rx="4" ry="2.6" fill="rgba(255,140,150,.5)"/>'+
+        '<ellipse cx="57" cy="52" rx="4" ry="2.6" fill="rgba(255,140,150,.5)"/>'+
+      '</g>'+
+    '</svg></div>';
+  play.appendChild(hero);
+}
+
+function layout(){
+  var pw=play.clientWidth, ph=play.clientHeight;
+  if(pw<1) return;
+  var sw = pw<560 ? 108 : 158;
+  var sh = pw<560 ? 34 : 42;
+  // align the TOP of the staircase to the flag, so the climb leads right into it
+  var pr=play.getBoundingClientRect(), fr=card.getBoundingClientRect();
+  var flagLeft = fr.left - pr.left;
+  var flagBase = ph - (fr.bottom - pr.top);   // flag's base, measured up from play bottom
+  var x0=pw*0.05, y0=ph*0.10;
+  var gap = pw<560 ? 8 : 18;
+  var x1 = Math.round(flagLeft - gap - sw);            // last step sits just LEFT of the flag (no overlap)
+  var y1 = Math.round(flagBase - sh*0.5);              // last step's top ≈ the flag's platform level
+  x1 = Math.min(x1, pw - sw - 4);
+  y1 = Math.max(ph*0.40, Math.min(y1, ph - sh - 6));
+  stepGeo=[];
+  for(var i=0;i<NSTEP;i++){
+    var t=i/(NSTEP-1);
+    var left=Math.round(x0 + (x1-x0)*t);
+    var bottom=Math.round(y0 + (y1-y0)*t);
+    var el=stepEls[i];
+    el.style.width=sw+'px'; el.style.height=sh+'px';
+    el.style.left=left+'px'; el.style.bottom=bottom+'px';
+    stepGeo[i]={left:left, bottom:bottom, w:sw, h:sh};
+  }
+  placeHero(placed, true);
+}
+function heroPos(i){
+  var g=stepGeo[i]||{left:0,bottom:0,w:150,h:36};
+  var hw = (play.clientWidth<560?74:92);
+  return { left: Math.round(g.left + g.w/2 - hw/2), bottom: Math.round(g.bottom + g.h - 6) };
+}
+function placeHero(i, instant){
+  if(!hero) return;
+  var p=heroPos(i);
+  if(instant){ var pt=hero.style.transition; hero.style.transition='none'; hero.style.left=p.left+'px'; hero.style.bottom=p.bottom+'px'; void hero.offsetWidth; hero.style.transition=pt; }
+  else { hero.style.left=p.left+'px'; hero.style.bottom=p.bottom+'px'; }
+}
+function refreshSteps(){
+  for(var i=0;i<NSTEP;i++){
+    var el=stepEls[i];
+    el.classList.remove('show','ghost','target','hidden');
+    if(i<=placed){ el.classList.add('show'); }
+    else if(i===placed+1){ el.classList.add('show','ghost','target'); }
+    else { el.classList.add('hidden'); }
+  }
+}
+function readiness(){
+  var p = placed>=NOPP ? 100 : 30 + Math.round(placed/NOPP*70);
+  pct.textContent=p+'%'; fill.style.width=p+'%';
+}
+function setGlow(v){ card.style.setProperty('--glow', Math.max(0,Math.min(1,v))); }
+
+function buildTray(){
+  tray.innerHTML=''; chips=[];
+  OPP.forEach(function(o,idx){
+    var tk=document.createElement('span'); tk.className='tok'+(idx===0?' active':'');
+    tk.innerHTML='<span class="tok__chip">'+sv(o.icon)+'</span><span>'+o.label+'</span>';
+    tray.appendChild(tk); chips.push(tk); wireChip(tk, idx);
+  });
+}
+function padHit(x,y){
+  var t=stepEls[placed+1]; if(!t) return false;
+  var r=t.getBoundingClientRect();
+  return x>=r.left-22 && x<=r.right+22 && y>=r.top-22 && y<=r.bottom+22;
+}
+function wireChip(tk, idx){
+  var sx,sy,on=false,moved=false;
+  tk.addEventListener('pointerdown',function(e){ if(idx!==placed||busy)return; on=true; moved=false; sx=e.clientX; sy=e.clientY;
+    try{tk.setPointerCapture(e.pointerId);}catch(x){} tk.classList.add('drag'); e.preventDefault(); });
+  tk.addEventListener('pointermove',function(e){ if(!on)return; var dx=e.clientX-sx, dy=e.clientY-sy;
+    if(Math.abs(dx)+Math.abs(dy)>6) moved=true;
+    tk.style.transform='translate('+dx+'px,'+dy+'px)';
+    if(stepEls[placed+1]) stepEls[placed+1].classList.toggle('target', true);
+  });
+  function end(e){ if(!on)return; on=false; tk.classList.remove('drag');
+    try{tk.releasePointerCapture(e.pointerId);}catch(x){}
+    var hit=padHit(e.clientX,e.clientY);
+    tk.style.transform='';
+    if(!moved || hit){ advance(); }
+  }
+  tk.addEventListener('pointerup',end); tk.addEventListener('pointercancel',end);
+  // plain click fallback (guarded by busy/active)
+  tk.addEventListener('click',function(){ if(idx===placed && !busy) advance(); });
+}
+
+function dust(i){
+  if(reduce) return;
+  var p=heroPos(i), cx=p.left+ (play.clientWidth<560?37:46), cy=p.bottom;
+  for(var k=0;k<6;k++){ var d=document.createElement('div'); d.className='puff';
+    d.style.left=cx+'px'; d.style.bottom=(cy-4)+'px'; play.appendChild(d);
+    var ang=(k/6)*Math.PI - Math.PI; var dist=14+Math.random()*12;
+    d.animate([{transform:'translate(-50%,0) scale(1)',opacity:.9},{transform:'translate(calc(-50% + '+Math.cos(ang)*dist+'px),'+(6+Math.random()*6)+'px) scale(.2)',opacity:0}],{duration:520,easing:'cubic-bezier(.22,1,.36,1)'}).onfinish=function(){this.effect.target.remove();};
+  }
+}
+function burst(){
+  if(reduce) return;
+  var r=card.getBoundingClientRect(), pr=play.getBoundingClientRect();
+  var cx=r.left-pr.left+r.width/2, cy=r.top-pr.top+r.height/2;
+  for(var k=0;k<16;k++){ var s=document.createElement('div'); s.className='spark';
+    s.style.left=cx+'px'; s.style.top=cy+'px'; play.appendChild(s);
+    var a=(k/16)*Math.PI*2, dist=40+Math.random()*46;
+    s.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:'translate(calc(-50% + '+Math.cos(a)*dist+'px),calc(-50% + '+Math.sin(a)*dist+'px)) scale(0)',opacity:0}],{duration:900,easing:'cubic-bezier(.22,1,.36,1)'}).onfinish=function(){this.effect.target.remove();};
+  }
+}
+function jumpTo(i){
+  placeHero(i, false);
+  if(!reduce){ var hop=hero.querySelector('.hero__hop'); hop.classList.remove('hop'); void hop.offsetWidth; hop.classList.add('hop'); }
+  setTimeout(function(){ dust(i); }, 470);
+}
+
+function advance(){
+  if(busy || placed>=NOPP) return; busy=true;
+  var si=placed+1;             // step to build
+  if(chips[placed]){ chips[placed].classList.remove('active'); chips[placed].classList.add('done'); }
+  placed++;
+  // reveal + pop the new step
+  var st=stepEls[si]; st.classList.remove('ghost','target','hidden'); st.classList.add('show','pop');
+  setTimeout(function(){ st.classList.remove('pop'); }, 520);
+  readiness(); setGlow(placed/NOPP);
+  jumpTo(si);
+  // reveal next ghost target / activate next chip
+  setTimeout(function(){
+    refreshSteps();
+    if(placed<NOPP && chips[placed]) chips[placed].classList.add('active');
+  }, 360);
+  if(placed>=NOPP){ setTimeout(complete, 560); }
+  setTimeout(function(){ busy=false; }, 640);
+}
+function complete(){
+  card.classList.add('shine'); setGlow(1); burst();
+  setTimeout(function(){ stage.classList.remove('playing'); stage.classList.add('done'); }, 950);
+}
+
+function reset(){
+  placed=0; busy=false;
+  stage.classList.remove('done');
+  card.classList.remove('shine'); setGlow(0);
+  buildSteps(); buildTray();
+  layout(); refreshSteps(); readiness();
+  placeHero(0, true);
+}
+function startGame(){ stage.classList.add('playing'); reset(); }
+function revealCTA(){ // skip
+  placed=NOPP;
+  for(var i=0;i<NSTEP;i++){ stepEls[i].classList.remove('ghost','target','hidden'); stepEls[i].classList.add('show'); }
+  chips.forEach(function(c){ c.classList.remove('active'); c.classList.add('done'); });
+  readiness(); setGlow(1); layout(); placeHero(NSTEP-1, true);
+  card.classList.add('shine');
+  stage.classList.remove('playing'); stage.classList.add('done');
+}
+document.getElementById('skip').addEventListener('click', revealCTA);
+document.getElementById('replay').addEventListener('click', startGame);
+window.addEventListener('resize', function(){ if(stage.classList.contains('playing')||stage.classList.contains('done')) layout(); });
+
+// boot
+buildSteps(); buildTray(); layout();
+if(!reduce){ startGame(); }
+else { placed=NOPP; for(var i=0;i<NSTEP;i++){ stepEls[i].classList.add('show'); } setGlow(1); card.classList.add('shine'); placeHero(NSTEP-1,true); readiness(); }
+
+// embedded: route the "see how it works" link to the parent page
+var seeHow=document.getElementById('sgSeeHow');
+if(seeHow){ seeHow.addEventListener('click', function(e){ e.preventDefault(); try{ parent.postMessage({sg:'how'},'*'); }catch(x){} }); }
+</script>
+</body>
+</html>
