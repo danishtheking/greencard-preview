@@ -327,13 +327,14 @@ var I = {
 function sv(p,c){ return '<svg class="'+(c||'ic')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'; }
 
 // step 0 = base (Résumé); steps 1..5 are the opportunities to add
-var STEP_ICONS=[I.doc,I.eye,I.mic,I.scales,I.people,I.medal];
+// ordered low -> high evidence strength (climb builds toward the strongest)
+var STEP_ICONS=[I.doc,I.mic,I.medal,I.people,I.scales,I.eye];
 var OPP=[
-  {label:'Peer review', icon:I.eye},
   {label:'Speaking',    icon:I.mic},
-  {label:'Judging',     icon:I.scales},
+  {label:'Awards',      icon:I.medal},
   {label:'Mentorship',  icon:I.people},
-  {label:'Awards',      icon:I.medal}
+  {label:'Judging',     icon:I.scales},
+  {label:'Peer review', icon:I.eye}
 ];
 var NSTEP=6;            // total steps (incl. base)
 var NOPP=OPP.length;    // 5
