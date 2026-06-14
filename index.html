@@ -517,18 +517,23 @@ img{ max-width:100%; display:block; }
 
 /* ── right stage ── */
 .sc__stage{ position:relative; height:clamp(440px,64vh,564px); }
-/* panel swap: a felt lift + zoom crossfade. Opacity is quicker than the
-   transform, so each panel glides into place after it appears (settles,
-   never pops). The incoming fade is nudged .08s so the outgoing clears
-   first — a clean handoff instead of a muddy 50/50 blend. */
+/* panel swap: a directional vertical slide. The outgoing panel slides up
+   and out (.is-leaving); the incoming rises in from below (a gentle
+   "conveyor"). Opacity crossfades so the two never hard-overlap, and the
+   incoming is nudged .08s so the outgoing leads — it reads as "one slides
+   up, then the next arrives from below". */
 .sc__panel{
-  position:absolute; inset:0; opacity:0; transform:translateY(38px) scale(.96);
-  transition:opacity .5s var(--ease-soft), transform .75s var(--ease-out);
+  position:absolute; inset:0; opacity:0; transform:translateY(60px);
+  transition:opacity .45s var(--ease-soft), transform .7s var(--ease-out);
   pointer-events:none; will-change:opacity, transform;
 }
 .sc__panel.is-active{
-  opacity:1; transform:translateY(0) scale(1); pointer-events:auto;
-  transition:opacity .55s var(--ease-soft) .08s, transform .75s var(--ease-out);
+  opacity:1; transform:translateY(0); pointer-events:auto;
+  transition:opacity .5s var(--ease-soft) .08s, transform .7s var(--ease-out) .08s;
+}
+.sc__panel.is-leaving{
+  opacity:0; transform:translateY(-60px);
+  transition:opacity .4s var(--ease-soft), transform .7s var(--ease-out);
 }
 .sc__panel-title{ display:none; }
 
@@ -1725,7 +1730,16 @@ p{ text-wrap:pretty; }
     if (i === current) return;
     current = i;
     navitems.forEach(function (el, k) { el.classList.toggle('is-active', k === i); });
-    panels.forEach(function (el, k) { el.classList.toggle('is-active', k === i); });
+    panels.forEach(function (el, k) {
+      if (k === i) {
+        el.classList.remove('is-leaving');   // incoming: rise from below
+        el.classList.add('is-active');
+      } else if (el.classList.contains('is-active')) {
+        el.classList.remove('is-active');     // outgoing: slide up and out
+        el.classList.add('is-leaving');
+        setTimeout(function () { if (!el.classList.contains('is-active')) el.classList.remove('is-leaving'); }, 760);
+      }
+    });
   }
 
   var ticking = false;
