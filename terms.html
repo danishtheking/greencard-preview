@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terms of Service · GreenCard AI</title>
+<meta name="description" content="Terms of Service for GreenCard AI — the binding agreement covering your use of the platform." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#16271F; --ink-2:#4E6157; --ink-3:#7E948A;
+  --mint:#47C189; --mint-deep:#1B7A50; --mint-ink:#0E4E33;
+  --mint-100:#ECF9F2; --mint-200:#D8F1E4; --mint-300:#BCE7D2;
+  --line:#E4EBE6; --well:#F3F7F4;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+  --mono:"Space Grotesk","Inter",system-ui,sans-serif;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html,body{ overflow-x:hidden; }
+body{ font-family:var(--sans); color:var(--ink); letter-spacing:-.006em; -webkit-font-smoothing:antialiased; font-optical-sizing:auto;
+  background:linear-gradient(180deg,#EAF6EF 0%,#F4FAF7 220px,#F6FBF8 100%); }
+body::after{ content:""; position:fixed; inset:0; z-index:9000; pointer-events:none; opacity:.03; mix-blend-mode:multiply; background-image:var(--grain); background-size:160px; }
+a{ color:var(--mint-deep); }
+
+/* nav */
+.nav-wrap{ position:sticky; top:0; z-index:50; padding:14px 0; }
+.nav{ width:min(1080px, calc(100% - 40px)); margin:0 auto; height:60px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 20px; border-radius:16px; border:1px solid rgba(255,255,255,.7); background:rgba(255,255,255,.82);
+  backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4);
+  box-shadow:0 16px 40px -28px rgba(22,39,31,.4); }
+.wordmark{ font-weight:700; font-size:18px; letter-spacing:-.02em; color:var(--ink); text-decoration:none; }
+.wordmark em{ font-style:normal; color:var(--mint-deep); }
+.back{ font-size:14px; font-weight:500; color:var(--ink-3); text-decoration:none; transition:color .2s; }
+.back:hover{ color:var(--ink); }
+
+/* layout */
+.wrap{ width:min(800px, calc(100% - 40px)); margin:0 auto; padding:34px 0 64px; }
+.card{ position:relative; background:#fff; border:1px solid var(--line); border-radius:22px; padding:36px 40px 44px;
+  box-shadow:inset 0 1px 0 #fff, 0 30px 70px -44px rgba(22,39,31,.3); }
+
+/* header bits */
+.eyebrow{ font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--mint-deep); margin-bottom:10px; }
+.ltitle{ font-family:var(--sans); font-weight:500; font-size:clamp(28px,4vw,38px); letter-spacing:-.025em; line-height:1.08; color:var(--ink); }
+.ltitle em{ font-style:italic; color:var(--mint-deep); }
+.metagrid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px 18px; margin-top:18px; max-width:480px; }
+.mk{ font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); }
+.mv{ font-size:14px; color:var(--ink); margin-top:3px; }
+.lintro{ margin-top:18px; font-size:14.5px; line-height:1.65; color:var(--ink-2); }
+.lintro + .lintro{ margin-top:11px; }
+.callout{ margin-top:22px; border:1px solid var(--mint-200); background:var(--mint-100); border-radius:13px; padding:14px 16px; font-size:14px; line-height:1.6; color:var(--mint-ink); }
+
+/* prose */
+.legal{ margin-top:8px; }
+.legal h2{ font-family:var(--sans); font-weight:600; font-size:20px; letter-spacing:-.02em; color:var(--ink); margin:32px 0 4px; padding-top:12px; border-top:1px solid var(--line); }
+.legal h3{ font-weight:600; font-size:15.5px; color:var(--ink); margin:20px 0 0; }
+.legal p{ font-size:14.5px; line-height:1.7; color:var(--ink-2); margin-top:11px; }
+.legal p.upper{ text-transform:uppercase; letter-spacing:.015em; font-size:13px; color:var(--ink-2); }
+.legal ul{ margin:11px 0 0; padding-left:20px; }
+.legal li{ font-size:14.5px; line-height:1.65; color:var(--ink-2); margin-top:7px; }
+.legal li strong, .legal p strong{ color:var(--ink); font-weight:600; }
+.legal a{ color:var(--mint-deep); text-decoration:underline; text-underline-offset:2px; }
+.cgrid{ margin-top:16px; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.crow{ display:grid; grid-template-columns:150px 1fr; font-size:14px; border-top:1px solid var(--line); }
+.crow:first-child{ border-top:0; }
+.crow:nth-child(odd){ background:rgba(243,247,244,.55); }
+.ck{ padding:10px 13px; font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-3); }
+.cv{ padding:10px 13px; color:var(--ink); }
+.lfoot{ margin-top:30px; border-top:1px solid var(--line); padding-top:18px; font-size:12.5px; line-height:1.6; color:var(--ink-3); }
+
+/* footer */
+.foot{ width:min(1080px, calc(100% - 40px)); margin:0 auto; padding:26px 4px 40px; border-top:1px solid var(--line);
+  display:flex; gap:14px 26px; flex-wrap:wrap; align-items:center; justify-content:space-between; font-size:12.5px; color:var(--ink-3); }
+.foot a{ color:var(--ink-3); text-decoration:none; }
+.foot a:hover{ color:var(--mint-deep); }
+.foot__links{ display:flex; gap:20px; flex-wrap:wrap; }
+
+@media (max-width:680px){
+  .card{ padding:26px 22px 32px; border-radius:18px; }
+  .legal .crow{ grid-template-columns:1fr; }
+  .legal .ck{ padding-bottom:0; }
+  .metagrid{ gap:12px; }
+}
+</style>
+</head>
+<body>
+<header class="nav-wrap">
+  <nav class="nav">
+    <a class="wordmark" href="index.html">GreenCard <em>AI</em></a>
+    <a class="back" href="index.html">← Back to home</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="card">
+<p class="eyebrow">Legal</p>
+<h1 class="ltitle">Terms of <em>Service</em></h1>
+<div class="metagrid">
+<div><div class="mk">Effective date</div><div class="mv">May 25, 2026</div></div>
+<div><div class="mk">Last updated</div><div class="mv">May 25, 2026</div></div>
+<div><div class="mk">Website</div><div class="mv">www.greencardguide.ai</div></div>
+<div><div class="mk">Governing law</div><div class="mv">Oklahoma, USA</div></div>
+</div>
+<div class="callout">This platform provides AI-assisted guidance only and does not constitute legal advice. No attorney-client relationship is created by use of this platform.</div>
+<div class="legal">
+<h2>1. Acceptance of Terms</h2>
+<p>By accessing or using the GreenCard Guide AI platform located at www.greencardguide.ai (the “Platform”), including any services, tools, AI agents, features, or content offered thereon, you (“User” or “you”) agree to be legally bound by these Terms of Service (“Terms”). If you do not agree to these Terms in their entirety, you must immediately cease all use of the Platform.</p>
+<p>These Terms constitute a binding legal agreement between you and the GreenCard Guide AI partnership, operated jointly by Grow Legal Tech, a unit of Mindcys Consultancy Pvt Ltd (incorporated in India), and Lai Turner Law PLLC, a law firm licensed in the United States (collectively referred to herein as “GreenCard Guide AI”, “we”, “us”, or “our”).</p>
+<p>We reserve the right to revise these Terms at any time. Continued use of the Platform after changes are posted constitutes your acceptance of the revised Terms. Material changes will be communicated via email or a prominent notice on the Platform.</p>
+<h2>2. Description of Services</h2>
+<p>GreenCard Guide AI provides an agentic artificial intelligence (AI) platform designed to assist users in strategically enhancing their immigration profiles for the following U.S. immigration visa categories:</p>
+<ul>
+<li>O-1A Visa: Individuals with extraordinary ability in sciences, education, business, or athletics</li>
+<li>EB-1A Visa: Employment-based first preference for individuals with extraordinary ability</li>
+<li>EB-2 NIW (National Interest Waiver): Employment-based second preference for professionals with advanced degrees or exceptional ability, with a national interest waiver</li>
+</ul>
+<p>The Platform's AI agents may provide services including but not limited to:</p>
+<ul>
+<li>Profile analysis and gap identification relative to USCIS evidentiary criteria</li>
+<li>Strategic recommendations for building or strengthening your immigration profile</li>
+<li>Guidance on evidence types, documentation, and presentation strategies</li>
+<li>Identification of potential qualifying achievements, publications, citations, awards, and contributions</li>
+<li>Draft preparation assistance and feedback on petition materials</li>
+<li>Tracking of profile milestones and progress recommendations</li>
+</ul>
+<div class="callout">IMPORTANT LEGAL DISCLAIMER: The services provided by GreenCard Guide AI are AI-assisted guidance tools ONLY and do not constitute legal advice, legal representation, or the practice of law. No attorney-client relationship is created through use of this Platform.</div>
+<h2>3. Legal Disclaimer and No Attorney-Client Relationship</h2>
+<h3>3.1 AI-Assisted Guidance Only</h3>
+<p>The Platform uses artificial intelligence technology to provide strategic guidance and recommendations. All outputs, analyses, suggestions, and content generated by the AI agents are for informational and educational purposes only. They are not a substitute for professional legal advice from a qualified, licensed immigration attorney.</p>
+<h3>3.2 No Attorney-Client Relationship</h3>
+<p>Use of this Platform does not create, and shall not be construed to create, an attorney-client relationship between you and GreenCard Guide AI, Lai Turner Law PLLC, Grow Legal Tech, Mindcys Consultancy Pvt Ltd, or any attorney associated with these entities.</p>
+<p>Any attorney-client relationship with Lai Turner Law PLLC, if desired, must be established through a separate, written engagement agreement executed by both parties.</p>
+<h3>3.3 No Guarantee of Outcomes</h3>
+<p>Immigration outcomes are determined solely by the United States Citizenship and Immigration Services (USCIS), Department of Labor, and other relevant government agencies. GreenCard Guide AI makes no representation, warranty, or guarantee that use of the Platform will result in a successful visa application, petition approval, or any particular immigration outcome.</p>
+<h3>3.4 AI Limitations</h3>
+<p>AI-generated content may be inaccurate, incomplete, or outdated. Immigration law is complex and subject to frequent regulatory and policy changes. You are solely responsible for verifying the accuracy and applicability of any information provided by the Platform with a qualified immigration attorney before relying on it.</p>
+<h3>3.5 Consult a Licensed Attorney</h3>
+<p>We strongly recommend that all users consult with a licensed U.S. immigration attorney before filing any petition, application, or submission with USCIS or any government agency.</p>
+<h2>4. Eligibility and Account Registration</h2>
+<h3>4.1 Eligibility</h3>
+<p>You must be at least 18 years of age to use this Platform. By using the Platform, you represent and warrant that you are at least 18 years old and have the legal capacity to enter into a binding agreement.</p>
+<h3>4.2 Account Registration</h3>
+<p>Certain features of the Platform may require you to create an account. You agree to:</p>
+<ul>
+<li>Provide accurate, current, and complete information during registration</li>
+<li>Maintain and promptly update your account information</li>
+<li>Keep your login credentials confidential and not share them with third parties</li>
+<li>Notify us immediately of any unauthorized use of your account</li>
+<li>Accept responsibility for all activities that occur under your account</li>
+</ul>
+<h3>4.3 Account Termination</h3>
+<p>We reserve the right to suspend or terminate your account at any time, with or without notice, for violation of these Terms, fraudulent activity, or any conduct we determine to be harmful to the Platform or other users.</p>
+<h2>5. User Responsibilities and Acceptable Use</h2>
+<h3>5.1 Accurate Information</h3>
+<p>You agree to provide truthful, accurate, and complete information when using the Platform. Providing false or misleading information may jeopardize your immigration case and constitutes a violation of these Terms. Misrepresentation in immigration matters may also constitute a federal offense.</p>
+<h3>5.2 Prohibited Conduct</h3>
+<p>You agree not to:</p>
+<ul>
+<li>Use the Platform for any unlawful purpose or in violation of applicable laws or regulations</li>
+<li>Misrepresent your identity, qualifications, achievements, or immigration history</li>
+<li>Upload malicious code, viruses, or any harmful software to the Platform</li>
+<li>Attempt to gain unauthorized access to any part of the Platform or its systems</li>
+<li>Scrape, copy, or systematically extract data from the Platform without written consent</li>
+<li>Use the Platform to facilitate immigration fraud or misrepresentation to government agencies</li>
+<li>Reverse engineer, decompile, or disassemble any component of the Platform</li>
+<li>Resell, sublicense, or commercially exploit Platform outputs without written authorization</li>
+<li>Interfere with or disrupt the integrity or performance of the Platform</li>
+<li>Share your account credentials or allow third parties to use your account</li>
+</ul>
+<h3>5.3 Compliance with Immigration Laws</h3>
+<p>You remain solely responsible for ensuring that all immigration filings, submissions, and statements made to government agencies are truthful and compliant with applicable U.S. immigration laws and regulations. GreenCard Guide AI is not responsible for any consequences arising from your representations to USCIS or other government bodies.</p>
+<h2>6. Intellectual Property Rights</h2>
+<h3>6.1 Platform Ownership</h3>
+<p>The Platform, including all software, AI models, algorithms, databases, text, graphics, logos, user interfaces, and other content created or owned by GreenCard Guide AI, is protected by applicable intellectual property laws including copyright, trademark, and trade secret laws. All rights are reserved by GreenCard Guide AI and its licensors.</p>
+<h3>6.2 User Content License</h3>
+<p>By submitting, uploading, or providing any content, documents, or data to the Platform (“User Content”), you grant GreenCard Guide AI a limited, non-exclusive, royalty-free, worldwide license to use, process, store, and analyze such User Content solely for the purpose of providing services to you and improving the Platform. This license does not allow us to sell your User Content or use it for purposes unrelated to providing our services.</p>
+<h3>6.3 Feedback</h3>
+<p>Any feedback, suggestions, or recommendations you provide regarding the Platform may be used by GreenCard Guide AI without any obligation to compensate you, and you waive any intellectual property rights in such feedback to the extent permitted by law.</p>
+<h3>6.4 AI-Generated Outputs</h3>
+<p>AI-generated analyses, recommendations, and content produced by the Platform based on your inputs are provided for your personal use in connection with your immigration profile development. You may not resell, redistribute, or commercially exploit such outputs without our prior written consent.</p>
+<h2>7. Subscription, Fees, and Payments</h2>
+<h3>7.1 Pricing and Plans</h3>
+<p>GreenCard Guide AI may offer free and paid subscription plans. The features available under each plan will be described on the Platform. We reserve the right to modify pricing and plans at any time with reasonable notice.</p>
+<h3>7.2 Payment Terms</h3>
+<p>By enrolling in a paid plan, you authorize us (or our payment processor) to charge the applicable fees to your designated payment method. All fees are stated in U.S. Dollars (USD) unless otherwise specified. You represent that you are authorized to use the payment method you provide.</p>
+<h3>7.3 Refund Policy</h3>
+<p>Given the nature of AI-generated digital services, all fees paid are generally non-refundable unless otherwise stated in your subscription plan or required by applicable law. Refund requests will be evaluated on a case-by-case basis at our sole discretion. Please contact <a href="mailto:support@greencardguide.ai">support@greencardguide.ai</a> for refund inquiries.</p>
+<h3>7.4 Taxes</h3>
+<p>You are responsible for all applicable taxes, duties, or levies arising from your purchase and use of the Platform, except where GreenCard Guide AI is required by law to collect and remit such taxes.</p>
+<h3>7.5 Failed Payments</h3>
+<p>If a payment fails, we may suspend or terminate access to paid features until payment is successfully received. You are responsible for maintaining valid payment information in your account.</p>
+<h2>8. Confidentiality of Immigration Information</h2>
+<p>GreenCard Guide AI recognizes the highly sensitive nature of immigration-related information. We implement appropriate technical and organizational safeguards to protect your data. However, please note:</p>
+<ul>
+<li>No transmission of data over the Internet or any electronic storage system is 100% secure</li>
+<li>You should exercise caution when sharing particularly sensitive documents or information</li>
+<li>We do not share your immigration case information with USCIS, government agencies, or third parties except as described in our Privacy Policy or required by law</li>
+<li>We will not use your immigration information to report you to any immigration authority</li>
+</ul>
+<h2>9. Disclaimer of Warranties</h2>
+<p class="upper">The Platform is provided on an “as is” and “as available” basis without warranties of any kind, either express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, title, non-infringement, or that the Platform will be uninterrupted, error-free, or secure.</p>
+<p class="upper">GreenCard Guide AI does not warrant the accuracy, completeness, reliability, timeliness, or suitability of any information provided through the Platform for any particular purpose. Immigration laws and policies change frequently, and AI-generated content may not reflect the most current legal standards.</p>
+<h2>10. Limitation of Liability</h2>
+<p class="upper">To the fullest extent permitted by applicable law, in no event shall GreenCard Guide AI, its partners, officers, employees, agents, or licensors be liable for any indirect, incidental, special, consequential, punitive, or exemplary damages, including but not limited to:</p>
+<ul>
+<li>Loss of immigration benefits or opportunities</li>
+<li>Denial of visa applications or petitions</li>
+<li>Immigration enforcement actions</li>
+<li>Loss of employment or business opportunities</li>
+<li>Loss of data or unauthorized access to your data</li>
+<li>Any other indirect or consequential damages arising from use of the Platform</li>
+</ul>
+<p class="upper">In no event shall GreenCard Guide AI's total cumulative liability to you exceed the greater of (a) the total amount paid by you to GreenCard Guide AI in the twelve (12) months preceding the claim, or (b) one hundred U.S. Dollars ($100.00).</p>
+<p>Some jurisdictions do not allow the exclusion of certain warranties or limitation of liability. In such jurisdictions, the above limitations shall apply to the maximum extent permitted by law.</p>
+<h2>11. Indemnification</h2>
+<p>You agree to indemnify, defend, and hold harmless GreenCard Guide AI, its partners (including Grow Legal Tech, Mindcys Consultancy Pvt Ltd, and Lai Turner Law PLLC), and their respective officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, costs, or expenses (including reasonable attorneys' fees) arising out of or related to:</p>
+<ul>
+<li>Your use of or reliance on the Platform</li>
+<li>Your violation of these Terms</li>
+<li>Your violation of any applicable law or regulation</li>
+<li>Any misrepresentation you make to USCIS, the Department of Labor, or any government agency</li>
+<li>Any User Content you submit to the Platform</li>
+<li>Your infringement of any third-party rights</li>
+</ul>
+<h2>12. Third-Party Services and Links</h2>
+<p>The Platform may integrate with or link to third-party websites, services, or applications. GreenCard Guide AI is not responsible for the content, privacy practices, or terms of such third-party services. Your use of third-party services is governed by their respective terms and privacy policies. We encourage you to review them carefully.</p>
+<h2>13. Partnership Structure and Future Entity</h2>
+<p>GreenCard Guide AI is currently operated as an unregistered collaborative partnership between:</p>
+<ul>
+<li>Grow Legal Tech, a unit of Mindcys Consultancy Pvt Ltd, a private limited company incorporated under the laws of India; and</li>
+<li>Lai Turner Law PLLC, a professional limited liability company licensed to practice law in the United States</li>
+</ul>
+<p>The parties intend to form a new jointly-owned legal entity (the “JV Company”) in the future. Upon formation and registration of the JV Company, these Terms may be updated to reflect the new entity as the contracting party. You will be notified of any such material change. Your continued use of the Platform after notice of such change shall constitute acceptance of the updated Terms.</p>
+<p>Nothing in these Terms creates a joint liability between Lai Turner Law PLLC and Grow Legal Tech beyond what is expressly agreed between the parties in their partnership arrangement.</p>
+<h2>14. Governing Law and Dispute Resolution</h2>
+<h3>14.1 Governing Law</h3>
+<p>These Terms shall be governed by and construed in accordance with the laws of the State of Oklahoma, United States of America, without regard to its conflict of law provisions. For matters specifically relating to the Indian operations of Grow Legal Tech, Indian law may apply to the extent required by applicable regulations.</p>
+<h3>14.2 Informal Resolution</h3>
+<p>Before initiating formal dispute proceedings, both parties agree to attempt to resolve any dispute informally. Please contact us at <a href="mailto:support@greencardguide.ai">support@greencardguide.ai</a> with a detailed description of your concern. We will attempt to resolve the matter within 30 days.</p>
+<h3>14.3 Binding Arbitration</h3>
+<p>If informal resolution fails, any dispute, claim, or controversy arising out of or relating to these Terms or your use of the Platform shall be resolved by binding arbitration administered by the American Arbitration Association (AAA) under its Commercial Arbitration Rules. The arbitration shall take place in Oklahoma City, Oklahoma, United States. Judgment upon the award may be entered in any court of competent jurisdiction.</p>
+<h3>14.4 Class Action Waiver</h3>
+<p class="upper">You agree that any dispute resolution proceedings shall be conducted only on an individual basis and not in a class, consolidated, or representative action. You waive any right to participate in a class action lawsuit or class-wide arbitration.</p>
+<h3>14.5 Exceptions</h3>
+<p>Notwithstanding the above, either party may seek injunctive or other equitable relief in a court of competent jurisdiction to prevent irreparable harm, including for intellectual property violations.</p>
+<h2>15. Force Majeure</h2>
+<p>GreenCard Guide AI shall not be liable for any delay or failure to perform its obligations under these Terms resulting from causes beyond its reasonable control, including but not limited to acts of God, natural disasters, pandemics, government actions, internet or technology failures, or war.</p>
+<h2>16. Severability and Entire Agreement</h2>
+<p>If any provision of these Terms is found to be unenforceable or invalid by a court of competent jurisdiction, that provision shall be modified to the minimum extent necessary to make it enforceable, and all remaining provisions shall continue in full force and effect.</p>
+<p>These Terms, together with the Privacy Policy and any applicable subscription or service agreements, constitute the entire agreement between you and GreenCard Guide AI regarding the Platform and supersede all prior agreements and understandings.</p>
+<h2>17. Contact Information</h2>
+<p>For questions, concerns, or notices regarding these Terms of Service, please contact:</p>
+<div class="cgrid">
+<div class="crow"><div class="ck">Email</div><div class="cv"><a href="mailto:support@greencardguide.ai">support@greencardguide.ai</a></div></div>
+<div class="crow"><div class="ck">Website</div><div class="cv">www.greencardguide.ai</div></div>
+<div class="crow"><div class="ck">US Entity</div><div class="cv">Lai Turner Law PLLC — Oklahoma, USA · www.laiturnerlaw.com</div></div>
+<div class="crow"><div class="ck">India Entity</div><div class="cv">Grow Legal Tech, Unit of Mindcys Consultancy Pvt Ltd — Bhubaneswar, Odisha, India</div></div>
+</div>
+</div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div>© 2026 GreenCard AI. Confidential. Not legal advice.</div>
+  <div class="foot__links">
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="mailto:support@greencardguide.ai">Contact</a>
+  </div>
+</footer>
+</body>
+</html>
