@@ -17,6 +17,7 @@
   --mono:"Space Grotesk","Inter",system-ui,sans-serif;
   --ease-out:cubic-bezier(.22,1,.36,1); --ease-soft:cubic-bezier(.4,0,.2,1);
   --gls-1:rgba(124,229,182,.76); --gls-2:rgba(60,185,127,.70); --gls-edge:rgba(255,255,255,.55); --gls-sheen:rgba(255,255,255,.72);
+  --pole:linear-gradient(90deg,#22332B,#16271F 45%,#0e1a14);
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
 body{ font-family:var(--sans); color:var(--ink); background:#fff; letter-spacing:-.006em; -webkit-font-smoothing:antialiased; font-optical-sizing:auto; }
@@ -26,7 +27,7 @@ body{ font-family:var(--sans); color:var(--ink); background:#fff; letter-spacing
 .stage{ position:relative; overflow:hidden; border-radius:28px; border:1px solid var(--mint-200);
   background:radial-gradient(130% 90% at 50% -10%, #E6F7EE 0%, #F2FBF7 40%, #FFFFFF 82%);
   box-shadow: inset 0 1px 0 #fff, 0 30px 70px -42px rgba(22,39,31,.28);
-  display:grid; grid-template-columns:1fr 0.95fr; gap:36px; align-items:center; padding:46px 52px; }
+  display:grid; grid-template-columns:1fr 0.95fr; gap:30px; align-items:center; padding:46px 50px; }
 .cta__title{ font-family:var(--sans); font-weight:480; letter-spacing:-.03em; line-height:1.05; font-size:clamp(28px,3.6vw,46px); }
 .cta__title em{ font-style:italic; color:var(--mint-deep); }
 .cta__sub{ margin-top:16px; max-width:430px; color:var(--ink-2); font-size:16px; line-height:1.55; }
@@ -43,30 +44,36 @@ body{ font-family:var(--sans); color:var(--ink); background:#fff; letter-spacing
 @keyframes pulse{ 0%,100%{ box-shadow:inset 0 1px 0 var(--gls-sheen), 0 12px 28px -12px rgba(38,150,100,.5) } 50%{ box-shadow:inset 0 1px 0 var(--gls-sheen), 0 0 0 6px rgba(71,193,137,.22), 0 16px 34px -12px rgba(38,150,100,.6) } }
 .btn--ghost{ color:var(--ink); background:rgba(255,255,255,.5); border:1px solid var(--line); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
 
-/* ── build area ── */
+/* ════ THE LADDER ════ */
 .build{ display:flex; flex-direction:column; align-items:center; gap:18px; }
-.ladder{ position:relative; width:300px; max-width:100%; padding:0 4px; }
-.l-rail{ position:absolute; top:12px; bottom:12px; width:8px; border-radius:8px; z-index:1;
-  background:linear-gradient(180deg,#39504350 0%,#1d3227 100%); box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 3px 8px -3px rgba(22,39,31,.3); }
-.l-rail.l{ left:-2px } .l-rail.r{ right:-2px }
-.lsteps{ position:relative; z-index:2; display:flex; flex-direction:column-reverse; gap:13px; }
-.lstep{ position:relative; display:flex; align-items:center; gap:10px; min-height:46px; padding:11px 15px; border-radius:13px;
-  font-family:var(--sans); font-weight:600; font-size:14px; transition:border-color .35s var(--ease-out), background .35s var(--ease-out), box-shadow .35s var(--ease-out), transform .35s var(--ease-out), color .35s; }
-.lstep.empty{ border:2px dashed var(--mint-300); background:rgba(236,249,242,.5); color:var(--ink-3); justify-content:center; }
-.lstep.empty .plus{ width:20px; height:20px; opacity:.7; }
-.lstep.empty .hint{ font-weight:500; font-size:12.5px; letter-spacing:.01em; }
-.lstep.filled{ border:1px solid var(--mint-300); background:#fff; color:var(--mint-ink); box-shadow:0 8px 18px -10px rgba(38,150,100,.45); }
-.lstep.is-target{ border-color:var(--mint); background:var(--mint-100); box-shadow:0 0 0 4px rgba(71,193,137,.2); transform:scale(1.03); }
-.lstep.pop{ animation:pop .5s var(--ease-out); }
-@keyframes pop{ 0%{ transform:scale(.9) } 55%{ transform:scale(1.05) } 100%{ transform:scale(1) } }
-.lstep .ic{ width:18px; height:18px; flex:none; }
-.lstep .chk{ margin-left:auto; width:18px; height:18px; color:var(--mint); opacity:0; transform:scale(.5); transition:opacity .3s, transform .3s var(--ease-out); }
-.lstep.filled .chk{ opacity:1; transform:scale(1); }
-.lstep.base{ background:linear-gradient(180deg,#fff,#F4FBF7); border:1px solid var(--mint-200); color:var(--mint-ink); justify-content:flex-start; }
-.lstep.goal{ background:#fff; border:1.5px dashed var(--mint-300); color:var(--ink-3); justify-content:center; font-weight:700; }
-.lstep.goal.filled{ background:linear-gradient(180deg, var(--gls-1), var(--gls-2)); border-style:solid; border-color:var(--gls-edge); color:var(--mint-ink); box-shadow:0 0 0 5px rgba(71,193,137,.18), 0 14px 30px -12px rgba(38,150,100,.55); }
-/* climber */
-.climber{ position:absolute; left:50%; width:40px; height:40px; transform:translate(-50%,0); z-index:6; transition:top .55s var(--ease-out); pointer-events:none; }
+.ladderframe{ position:relative; width:330px; height:446px; max-width:100%; }
+/* rails (poles) + feet */
+.rail{ position:absolute; top:2px; bottom:22px; width:14px; border-radius:8px; z-index:2; background:var(--pole);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06), inset 2px 0 0 rgba(255,255,255,.14), 0 6px 14px -6px rgba(22,39,31,.45); }
+.rail.l{ left:40px } .rail.r{ left:128px }
+.rail::after{ content:""; position:absolute; bottom:-20px; left:-3px; width:20px; height:24px; background:var(--pole); border-radius:0 0 7px 7px; }
+.rail.l::after{ transform:rotate(9deg); transform-origin:top center; }
+.rail.r::after{ transform:rotate(-9deg); transform-origin:top center; }
+/* rungs between the rails */
+.rung{ position:absolute; left:47px; width:100px; height:12px; border-radius:7px; transform:translateY(50%); z-index:1; transition:all .4s var(--ease-out); }
+.rung.dashed{ height:7px; background-image:repeating-linear-gradient(90deg, var(--mint-300) 0 8px, transparent 8px 15px); }
+.rung.built, .rung.base{ background:linear-gradient(180deg,#43b884,#1c7a50); box-shadow:inset 0 1.5px 0 rgba(255,255,255,.3), 0 2px 5px -1px rgba(28,122,80,.4); }
+.rung.is-target{ height:12px; background:var(--mint); box-shadow:0 0 0 5px rgba(71,193,137,.22); }
+.rung.pop{ animation:pop .5s var(--ease-out); }
+@keyframes pop{ 0%{ transform:translateY(50%) scaleY(.4) } 55%{ transform:translateY(50%) scaleY(1.25) } 100%{ transform:translateY(50%) scaleY(1) } }
+/* opportunity tags beside each rung */
+.anno{ position:absolute; left:164px; transform:translateY(50%); display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
+  font-weight:600; font-size:13.5px; color:var(--ink-3); background:#fff; border:1px solid var(--line); border-radius:999px; padding:8px 13px;
+  box-shadow:0 1px 2px rgba(22,39,31,.05); transition:all .45s var(--ease-out); }
+.anno::before{ content:""; position:absolute; left:-15px; top:50%; width:13px; height:2px; background:var(--mint-300); transform:translateY(-50%); }
+.anno svg{ width:15px; height:15px; }
+.anno.empty{ opacity:0; transform:translateY(50%) translateX(-8px); }
+.anno.base{ color:var(--mint-ink); background:var(--mint-100); border-color:var(--mint-300); }
+.anno.lit{ color:var(--mint-ink); background:var(--mint-100); border-color:var(--mint-300); }
+.anno.goal{ font-weight:700; }
+.anno.goal.lit{ background:linear-gradient(180deg,var(--gls-1),var(--gls-2)); border-color:var(--gls-edge); }
+/* climber on the rungs */
+.climber{ position:absolute; left:97px; width:40px; height:40px; transform:translate(-50%,42%); z-index:6; transition:bottom .55s var(--ease-out); pointer-events:none; }
 .climber__av{ width:40px; height:40px; border-radius:50%; display:grid; place-items:center; color:#fff;
   background:radial-gradient(circle at 35% 28%, #c8f4de, var(--mint) 62%, var(--mint-deep));
   box-shadow:0 0 0 5px rgba(71,193,137,.16), 0 8px 16px -5px rgba(38,150,100,.5); animation:bob 2.4s var(--ease-soft) infinite; }
@@ -83,21 +90,21 @@ body{ font-family:var(--sans); color:var(--ink); background:#fff; letter-spacing
 .tok:active{ cursor:grabbing; }
 .tok.dragging{ box-shadow:0 16px 28px -10px rgba(38,150,100,.55); z-index:60; }
 .tok.used{ opacity:0; transform:scale(.5); pointer-events:none; }
-.ladder.hot .l-rail{ background:linear-gradient(180deg,#2f7d57,#1d3227); }
+.ladderframe.hot .rail{ box-shadow:inset 0 0 0 1px rgba(71,193,137,.4), inset 2px 0 0 rgba(255,255,255,.14), 0 6px 14px -6px rgba(38,150,100,.45); }
 
 .spark{ position:absolute; width:8px; height:8px; border-radius:50%; background:var(--mint); pointer-events:none; z-index:7; }
 
-@media (max-width:820px){ .stage{ grid-template-columns:1fr; gap:30px; padding:34px 20px; } .cta__sub,.meter{ max-width:none; } }
-@media (prefers-reduced-motion: reduce){ .climber, .lstep, .meter__fill{ transition:none; } .climber__av{ animation:none; } }
+@media (max-width:820px){ .stage{ grid-template-columns:1fr; gap:28px; padding:34px 20px; } .cta__sub,.meter{ max-width:none; } .build{ overflow:hidden; } }
+@media (prefers-reduced-motion: reduce){ .climber, .rung, .anno, .meter__fill{ transition:none; } .climber__av{ animation:none; } }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <p class="tag">Improved · drag-to-build ladder</p>
+  <p class="tag">Drag-to-build ladder · v2</p>
   <div class="stage">
     <div class="cta__copy">
       <h2 class="cta__title">Build your case, <em>rung by rung.</em></h2>
-      <p class="cta__sub">Drag each opportunity onto the ladder. Every rung you add is a step closer to your green card — exactly how the real product stacks your evidence.</p>
+      <p class="cta__sub">Each opportunity is a rung. Drag them onto the ladder and climb — résumé at the bottom, green card at the top.</p>
       <div class="meter">
         <div class="meter__row"><span>Profile readiness</span><b id="pct">35%</b></div>
         <div class="meter__bar"><div class="meter__fill" id="fill"></div></div>
@@ -109,17 +116,24 @@ body{ font-family:var(--sans); color:var(--ink); background:#fff; letter-spacing
     </div>
 
     <div class="build">
-      <div class="ladder" id="ladder">
-        <div class="l-rail l"></div><div class="l-rail r"></div>
-        <div class="lsteps" id="steps">
-          <div class="lstep base" data-row="0"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg> Résumé</div>
-          <div class="lstep empty" data-row="1" data-slot="1"><svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="hint">drop an opportunity</span></div>
-          <div class="lstep empty" data-row="2" data-slot="2"><svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="hint">drop an opportunity</span></div>
-          <div class="lstep empty" data-row="3" data-slot="3"><svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="hint">drop an opportunity</span></div>
-          <div class="lstep empty" data-row="4" data-slot="4"><svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="hint">drop an opportunity</span></div>
-          <div class="lstep goal" data-row="5"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M7 15h5M7 11h10"/></svg> Green card</div>
-        </div>
-        <div class="climber" id="climber"><div class="climber__av"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="7.2" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0z"/></svg></div></div>
+      <div class="ladderframe" id="ladder">
+        <div class="rail l"></div><div class="rail r"></div>
+        <!-- rungs (bottom → top) -->
+        <div class="rung base"      data-i="0" style="bottom:6%"></div>
+        <div class="rung dashed"    data-i="1" data-slot style="bottom:23.6%"></div>
+        <div class="rung dashed"    data-i="2" data-slot style="bottom:41.2%"></div>
+        <div class="rung dashed"    data-i="3" data-slot style="bottom:58.8%"></div>
+        <div class="rung dashed"    data-i="4" data-slot style="bottom:76.4%"></div>
+        <div class="rung dashed goal" data-i="5" style="bottom:94%"></div>
+        <!-- opportunity tags -->
+        <div class="anno base"  data-i="0" style="bottom:6%"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg> Résumé</div>
+        <div class="anno empty" data-i="1" style="bottom:23.6%"></div>
+        <div class="anno empty" data-i="2" style="bottom:41.2%"></div>
+        <div class="anno empty" data-i="3" style="bottom:58.8%"></div>
+        <div class="anno empty" data-i="4" style="bottom:76.4%"></div>
+        <div class="anno goal empty" data-i="5" style="bottom:94%"></div>
+        <!-- climber -->
+        <div class="climber" id="climber" style="bottom:6%"><div class="climber__av"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="7.2" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0z"/></svg></div></div>
       </div>
       <div class="tray" id="tray"></div>
     </div>
@@ -133,101 +147,78 @@ var OPPS = [
   { label: 'Judging', icon: '<path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7 3 12a3 3 0 0 0 6 0L7 7M19 7l-2 5a3 3 0 0 0 6 0l-2-5"/>' },
   { label: 'Awards', icon: '<circle cx="12" cy="9" r="5"/><path d="m8.5 13-1 7 4.5-2.6L16.5 20l-1-7"/>' }
 ];
-function svg(p, cls) { return '<svg class="' + (cls || 'ic') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
-var CHK = '<svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg>';
+var GOAL = { label: 'Green card', icon: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m8 12 2.5 2.5L16 9"/>' };
+function svg(p) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
+var LEVELS = [6, 23.6, 41.2, 58.8, 76.4, 94];
 var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 var ladder = document.getElementById('ladder');
-var stepsWrap = document.getElementById('steps');
 var tray = document.getElementById('tray');
 var climber = document.getElementById('climber');
 var fill = document.getElementById('fill');
 var pct = document.getElementById('pct');
 var cta = document.getElementById('cta');
-var emptySlots = Array.prototype.slice.call(stepsWrap.querySelectorAll('.lstep.empty'));
-var goalStep = stepsWrap.querySelector('.lstep.goal');
-var placed = 0;          // how many opportunity rungs filled
-var TARGET = emptySlots.length;
+var rungs = {}, annos = {};
+ladder.querySelectorAll('.rung').forEach(function (r) { rungs[r.dataset.i] = r; });
+ladder.querySelectorAll('.anno').forEach(function (a) { annos[a.dataset.i] = a; });
+var oppRungIdx = [1, 2, 3, 4];
+var placed = 0;
+var TARGET = oppRungIdx.length;
 
-function climbTo(stepEl) {
-  // stand the climber on top of the given step
-  var lr = ladder.getBoundingClientRect();
-  var sr = stepEl.getBoundingClientRect();
-  var top = (sr.top - lr.top) - climber.offsetHeight + 14; // feet overlap the step's top edge
-  climber.style.top = Math.max(0, top) + 'px';
-}
-function nextTarget() { return emptySlots[placed] || null; }
-function setTargetHighlight(on) {
-  emptySlots.forEach(function (s) { s.classList.remove('is-target'); });
-  if (on) { var t = nextTarget(); if (t) t.classList.add('is-target'); }
+function climbTo(level) { climber.style.bottom = LEVELS[level] + '%'; }
+function nextRung() { return placed < TARGET ? oppRungIdx[placed] : null; }
+function setTarget(on) {
+  oppRungIdx.forEach(function (i) { rungs[i].classList.remove('is-target'); });
+  if (on && nextRung() != null) rungs[nextRung()].classList.add('is-target');
 }
 function readiness() {
-  var p = 35 + Math.round((placed / TARGET) * 64); // 35% -> 99%
-  if (placed >= TARGET) p = 100;
-  pct.textContent = p + '%';
-  fill.style.width = p + '%';
+  var p = placed >= TARGET ? 100 : 35 + Math.round((placed / TARGET) * 63);
+  pct.textContent = p + '%'; fill.style.width = p + '%';
 }
-function sparkle(el) {
+function sparkle(level) {
   if (reduce) return;
-  var lr = ladder.getBoundingClientRect(), er = el.getBoundingClientRect();
-  var cx = er.left - lr.left + er.width / 2, cy = er.top - lr.top + er.height / 2;
-  for (var i = 0; i < 8; i++) {
-    var s = document.createElement('div'); s.className = 'spark';
-    s.style.left = cx + 'px'; s.style.top = cy + 'px';
+  var lr = ladder.getBoundingClientRect();
+  var cx = 97, cy = lr.height - (LEVELS[level] / 100 * lr.height);
+  for (var i = 0; i < 9; i++) {
+    var s = document.createElement('div'); s.className = 'spark'; s.style.left = cx + 'px'; s.style.top = cy + 'px';
     ladder.appendChild(s);
-    var a = (i / 8) * Math.PI * 2, d = 26 + (i % 3) * 8;
+    var a = (i / 9) * Math.PI * 2, d = 24 + (i % 3) * 9;
     s.animate([{ transform: 'translate(-50%,-50%) scale(1)', opacity: 1 },
                { transform: 'translate(calc(-50% + ' + Math.cos(a) * d + 'px), calc(-50% + ' + Math.sin(a) * d + 'px)) scale(0)', opacity: 0 }],
-              { duration: 600, easing: 'cubic-bezier(.22,1,.36,1)' }).onfinish = function () { this.effect.target.remove(); };
+              { duration: 620, easing: 'cubic-bezier(.22,1,.36,1)' }).onfinish = function () { this.effect.target.remove(); };
   }
 }
+function buildRung(idx, item, lit) {
+  var r = rungs[idx]; r.classList.remove('dashed', 'is-target'); r.classList.add('built', 'pop');
+  setTimeout(function () { r.classList.remove('pop'); }, 520);
+  var a = annos[idx]; a.classList.remove('empty'); a.classList.add('lit');
+  a.innerHTML = svg(item.icon) + '<span>' + item.label + '</span>';
+  climbTo(idx); readiness(); sparkle(idx);
+}
 function placeOpportunity(opp) {
-  var slot = nextTarget();
-  if (!slot) return false;
-  slot.classList.remove('empty', 'is-target');
-  slot.classList.add('filled', 'pop');
-  slot.innerHTML = svg(opp.icon) + '<span>' + opp.label + '</span>' + CHK;
-  setTimeout(function () { slot.classList.remove('pop'); }, 520);
-  placed++;
-  climbTo(slot);
-  readiness();
-  sparkle(slot);
-  if (placed >= TARGET) finish();
-  else setTargetHighlight(true);
+  var idx = nextRung(); if (idx == null) return false;
+  placed++; buildRung(idx, opp, true);
+  if (placed >= TARGET) finish(); else setTarget(true);
   return true;
 }
 function finish() {
-  setTargetHighlight(false);
-  setTimeout(function () {
-    goalStep.classList.add('filled', 'pop');
-    goalStep.innerHTML = svg('<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m8 12 2.5 2.5L16 9"/>') + '<span>Green card</span>';
-    climbTo(goalStep);
-    readiness();
-    sparkle(goalStep);
-    cta.classList.add('celebrate');
-  }, 480);
+  setTarget(false);
+  setTimeout(function () { buildRung(5, GOAL, true); cta.classList.add('celebrate'); }, 520);
 }
 
-// build tray tokens
 tray.innerHTML = '<span class="tray__hint">Drag onto the ladder ↑</span>';
 OPPS.forEach(function (opp) {
-  var t = document.createElement('span');
-  t.className = 'tok';
-  t.innerHTML = svg(opp.icon) + '<span>' + opp.label + '</span>';
-  t._opp = opp;
-  tray.appendChild(t);
-  makeDraggable(t);
+  var t = document.createElement('span'); t.className = 'tok'; t.innerHTML = svg(opp.icon) + '<span>' + opp.label + '</span>'; t._opp = opp;
+  tray.appendChild(t); makeDraggable(t);
 });
-
-function overLadder(x, y) { var r = ladder.getBoundingClientRect(); return x >= r.left - 36 && x <= r.right + 36 && y >= r.top - 10 && y <= r.bottom + 10; }
+function overLadder(x, y) { var r = ladder.getBoundingClientRect(); return x >= r.left - 40 && x <= r.right + 30 && y >= r.top - 12 && y <= r.bottom + 12; }
 function makeDraggable(t) {
   var sx, sy, dragging = false;
   t.addEventListener('pointerdown', function (e) {
     if (t.classList.contains('used')) return;
     dragging = true; sx = e.clientX; sy = e.clientY;
     try { t.setPointerCapture(e.pointerId); } catch (x) {}
-    t.classList.add('dragging'); setTargetHighlight(true);
-    e.preventDefault();
+    t.classList.add('dragging'); setTarget(true); e.preventDefault();
   });
   t.addEventListener('pointermove', function (e) {
     if (!dragging) return;
@@ -235,36 +226,19 @@ function makeDraggable(t) {
     ladder.classList.toggle('hot', overLadder(e.clientX, e.clientY));
   });
   function end(e) {
-    if (!dragging) return; dragging = false;
-    t.classList.remove('dragging'); ladder.classList.remove('hot');
+    if (!dragging) return; dragging = false; t.classList.remove('dragging'); ladder.classList.remove('hot');
     try { t.releasePointerCapture(e.pointerId); } catch (x) {}
-    var hit = overLadder(e.clientX, e.clientY);
-    if (hit && nextTarget()) {
-      t.classList.add('used');
-      placeOpportunity(t._opp);
-    } else {
-      setTargetHighlight(false);
-      t.style.transition = 'transform .35s var(--ease-out)';
-      t.style.transform = '';
-      setTimeout(function () { t.style.transition = ''; }, 360);
-    }
+    if (overLadder(e.clientX, e.clientY) && nextRung() != null) { t.classList.add('used'); placeOpportunity(t._opp); }
+    else { setTarget(false); t.style.transition = 'transform .35s var(--ease-out)'; t.style.transform = ''; setTimeout(function () { t.style.transition = ''; }, 360); }
   }
-  t.addEventListener('pointerup', end);
-  t.addEventListener('pointercancel', end);
+  t.addEventListener('pointerup', end); t.addEventListener('pointercancel', end);
 }
 
-// init
 function init() {
-  readiness();
-  var base = stepsWrap.querySelector('.lstep.base');
-  climbTo(base);
+  readiness(); climbTo(0);
   if (reduce) { OPPS.forEach(function (o) { placeOpportunity(o); }); tray.querySelectorAll('.tok').forEach(function (t) { t.classList.add('used'); }); }
 }
 window.addEventListener('load', init);
-window.addEventListener('resize', function () {
-  var top = placed >= TARGET ? goalStep : (placed > 0 ? emptySlots[placed - 1] : stepsWrap.querySelector('.lstep.base'));
-  climbTo(top);
-});
 </script>
 </body>
 </html>
