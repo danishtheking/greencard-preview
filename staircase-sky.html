@@ -445,9 +445,10 @@ function layout(){
   var flagLeft = fr.left - pr.left;
   var flagBase = ph - (fr.bottom - pr.top);   // flag's base, measured up from play bottom
   var x0=pw*0.05, y0=ph*0.10;
-  var x1 = Math.round(flagLeft + fr.width*0.34 - sw);  // last step tucks just under the flag's left
-  var y1 = Math.round(flagBase - sh*0.35);             // last step's top ≈ the flag's base level
-  x1 = Math.max(pw*0.40, Math.min(x1, pw - sw - 4));
+  var gap = pw<560 ? 8 : 18;
+  var x1 = Math.round(flagLeft - gap - sw);            // last step sits just LEFT of the flag (no overlap)
+  var y1 = Math.round(flagBase - sh*0.5);              // last step's top ≈ the flag's platform level
+  x1 = Math.min(x1, pw - sw - 4);
   y1 = Math.max(ph*0.40, Math.min(y1, ph - sh - 6));
   stepGeo=[];
   for(var i=0;i<NSTEP;i++){
